@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "Show";
+}
+@if (User.IsInRole("Admin"))
+{
+    <hr />
+    using (Html.BeginForm())
+    {
+    <div class="form-type-roundinput">
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.DropDownList("Session", ViewBag.session as SelectList, "Select Session", new { @class = "form-control", @required = true })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.DropDownList("Class", ViewBag.classes as SelectList, "Select Class", new { @class = "form-control", @required = true })
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Filter Record" class="btn btn-info" />
+        </div>
+
+    </div>
+
+<hr />
+}
+}
+
+<p>
+    <a href="@Url.Action("Index","HomeWork")" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Add</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+           Type
+        </th>
+        <th>
+           Class
+        </th>
+       
+        <th>
+          Section
+        </th>
+        <th>
+          Subject
+        </th>
+        <th>
+        Teacher        
+        </th>
+        
+        <th>
+        Content
+        </th>
+        <th></th>
+    </tr>
+    @if (TempData["list"]!=null)
+    {
+foreach (var item in TempData["list"] as IEnumerable<EServices.Models.Results.HomeWork>)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.HomeWorks.HomeWorkName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Classes.ClassName)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Sections.SectionName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subjects.SubjectName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Staff.Name)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Content)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Index", new { id = item.HomeWorkId }) 
+        </td>
+    </tr>
+}
+    }
+    else
+    {
+            <h4>No data availble</h4>
+    }
+
+
+</table>
+

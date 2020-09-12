@@ -1,0 +1,139 @@
+﻿@model IEnumerable<EServices.Models.MemberRegistration>
+
+@{
+    ViewBag.Title = "Users";
+}
+<h3>Users</h3><hr />
+
+@Styles.Render("~/DataTableCss")
+<div class="form-inline">
+   @using (Html.BeginForm()) { 
+        <div class="form-group">
+            <div class="col-md-12">
+                @Html.DropDownList("List", new[] {
+                new SelectListItem() {Text = "Admin"},
+                new SelectListItem() {Text = "Teacher"},
+                new SelectListItem() {Text = "Parent"},
+                }, "Select User Type", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <input type="submit" class="btn btn-primary"/>
+            </div>
+        </div>
+ }
+</div>
+
+
+<hr />
+
+<table class="table table-hover" id="tblUser">
+    <thead>
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CNIC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Password)
+        </th>
+        <th>
+            Account type
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.AccountStatus)
+        </th>
+        <th></th>
+
+    </tr>
+    </thead>
+
+   <tbody>
+     @foreach (var item in Model)
+     {
+        <tr>
+            <td>
+                <img src="@Url.Content(item.Image)" width="40" height="40" class="img-circle" />   @Html.DisplayFor(modelItem => item.Name) <span class="badge">@item.Role.RoleType</span>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CNIC)
+            </td>
+            <td>
+                @item.Password
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Role.RoleType)
+            </td>
+            @if (item.AccountStatus)
+            {
+                if (item.CNIC == "1110150393415")
+                {
+                    <td style="color:blue">
+                        Active
+               <a href="@Url.Action("BlockAccount","MemberRegistration",new { id=item.RegisterId})" class="btn btn-xs btn-default disabled">Deactivate</a>
+                    </td>
+                }
+                else
+                {
+
+                    <td style="color:blue">
+                        Active
+                <a href="@Url.Action("BlockAccount","MemberRegistration",new { id=item.RegisterId})" class="btn btn-xs btn-warning">Deactivate</a>
+                    </td>
+                }
+            }
+            else
+            {
+                <td style="color:red">
+                    Blocked
+              <a href="@Url.Action("BlockAccount","MemberRegistration",new { id=item.RegisterId})" class="btn btn-xs btn-success">Activate</a>
+                </td>
+
+            }
+            @if (item.RoleId != 3)
+            {
+                <td>
+                    @if (item.CNIC == "1110150393415")
+                    {
+                    <a href="" class="btn btn-xs btn-default disabled">Remove as Admin</a>
+                    }
+                    else if (item.RoleId == 1)
+                    {
+                    <a href="@Url.Action("MakeAdmin", "MemberRegistration",new { id=item.RegisterId})" class="btn btn-xs btn-danger">Remove as Admin</a>
+                    }
+                    else
+                    {
+                    <a href="@Url.Action("MakeAdmin", "MemberRegistration",new { id=item.RegisterId})" class="btn btn-xs btn-info">Make as Admin</a>
+                    }
+                </td>
+            }
+
+        </tr>
+     }
+   </tbody>
+
+</table>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+@Scripts.Render("~/DataTableJs")
+<script>
+ 
+    $('#tblUser').DataTable({
+        "dom": 'ftipr'
+    });
+
+</script>
+
+

@@ -1,0 +1,142 @@
+﻿@model EServices.Models.Fee.FeePayment
+
+@{
+    ViewBag.Title = "Details";
+    Layout = null;
+}
+
+<h2><img src="@Url.Content(Model.Students.Image)" width="40" height="40" class="img-circle" /> @Html.DisplayFor(model => model.Students.StudentName)</h2>
+
+<div>
+    
+    <hr />
+
+    <h5>
+        <strong>@Html.DisplayNameFor(model => model.Date) </strong> : @Html.DisplayFor(a=>a.Date)
+    </h5>
+
+   
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Classes.ClassName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Classes.ClassName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sessions.SessionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sessions.SessionName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MonthId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Months.MonthName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdmissionFee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdmissionFee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MonthlyFee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MonthlyFee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PromotionFee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PromotionFee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExamFee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExamFee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StationaryFee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StationaryFee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OtherCharges)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OtherCharges)
+        </dd>
+        <hr />
+        <dt>
+            @Html.DisplayNameFor(model => model.Total)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Total)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OutStand)
+        </dt>
+
+        <dd >
+            @Html.DisplayFor(model => model.OutStand)
+        </dd>
+        <hr />
+        <dt style="border-top:1px solid">
+            @Html.DisplayNameFor(model => model.NetTotal)
+        </dt>
+
+        <dd style="border-top:1px solid">
+            @Html.DisplayFor(model => model.NetTotal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CarryForward)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CarryForward)
+        </dd>
+
+       
+
+
+        
+      
+
+    </dl>
+</div>
+<p>
+   <button type="button" class="btn btn-default pull-right" style="margin-top:-30px;" data-dismiss="modal">Close</button>
+</p>

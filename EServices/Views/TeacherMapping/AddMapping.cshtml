@@ -1,0 +1,130 @@
+﻿@model EServices.Models.Subject.Subject_Teacher_Mapping
+
+@{
+    ViewBag.Title = "AddMapping";
+    Layout = null;
+}
+
+
+<form id="form">
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+      
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(a=>a.MapId)
+      
+        <div class="form-group">
+            @Html.LabelFor(model => model.EmpId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownListFor(model => model.EmpId, ViewBag.teacher as SelectList, "Select Teacher", new { @class = "form-control", @required = true })
+                @Html.ValidationMessageFor(model => model.EmpId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SubjectId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownListFor(model => model.SubjectId,ViewBag.subject as SelectList,"Select Subject",new { @class = "form-control",@required=true } )
+                @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ClassId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownListFor(model => model.ClassId, ViewBag.classes as SelectList, "Select Class", new { @class = "form-control", @required = true })
+                @Html.ValidationMessageFor(model => model.ClassId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SectionId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownListFor(model => model.SectionId, ViewBag.section as SelectList, "Select Section", new { @class = "form-control", @required = true })
+                @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+     
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" id="btn" value="Submit" class="btn btn-info" />
+                <input type="reset" value="Close" data-dismiss="modal" class="btn btn-default" />
+                <img src="~/AppFolder/GIF/giphy.gif" style="display:none;" id="loading" height="80" width="80"  />
+                <label id="msg"></label>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $('#btn').click(function () {
+        var message = $('#msg');
+        $('#loading').show();
+        var formData = $('#form').serialize();
+        message.empty();
+        if (validate()) {
+            $.ajax({
+                type: "POST",
+                url: "/TeacherMapping/AddMapping/",
+                data: formData,
+                success: function (response) {
+                    $('#loading').hide();
+                    if (response == "success") {
+
+                        message.append("Submited Successfully");
+                        message.removeClass("text-danger");
+                        message.addClass("text-success");
+                    }
+                    else if (response == "exists") {
+                        message.append("The mapping you are trying is already mapped");
+                        message.removeClass("text-success");
+                        message.addClass("text-danger");
+                    }
+                    else if (response == "overLoad") {
+                        message.append("Work Load already complete for this teacher");
+                        message.removeClass("text-success");
+                        message.addClass("text-danger");
+                    }
+                    else if (response == "alreadyAssign") {
+                        message.append("The subject is already assign to another teacher");
+                        message.removeClass("text-success");
+                        message.addClass("text-danger");
+                    }
+                    else if (response =="sessionnull") {
+                        message.append("Please add current session");
+                        message.removeClass("text-success");
+                        message.addClass("text-danger");
+                    }
+                    message.show();
+                }
+            });
+        }
+        else {
+            $('#loading').hide();
+            message.show();
+            message.append("field required...");
+            message.removeClass("text-success");
+            message.addClass("text-danger");
+        }
+       
+
+
+    });
+    function validate() {
+        var emp = $('#EmpId');
+        var subject = $('#SubjectId');
+        var section = $('#SectionId');
+        var cls = $('#ClassId');
+
+        if (emp.val() == "" || subject.val() == "" || section.val() == "" || cls.val()=="") {
+           
+            return false;
+        }
+        else {
+            return true;
+        }
+
+    }
+</script>

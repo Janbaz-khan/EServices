@@ -1,0 +1,122 @@
+﻿@model EServices.Models.Results.HomeWork
+
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/Content/checkbox.css" rel="stylesheet" />
+<style>
+    .form-horizontal{
+        margin-top:50px;
+    }
+    #btn{
+       position:absolute;
+       left:100px;
+    }
+    .checkBox1{
+        position:relative;
+        top:4px;
+    }
+</style>
+<h4>Home WorK</h4>
+<hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(a=>a.HomeWorkId)
+    if (ViewBag.message!=null)
+    {
+        <div class="alert alert-success">@ViewBag.message</div>
+    }
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    if (User.IsInRole("Teacher"))
+    {
+        <div class="form-inline">
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.DropDownListFor(model => model.HomeWorkTypeId, ViewBag.type as SelectList, "Select Type", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.HomeWorkTypeId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.DropDownListFor(model => model.ClassId, ViewBag.classes as SelectList, "Select Class", new { @class = "form-control",  @id = "classId" })
+                    @Html.ValidationMessageFor(model => model.ClassId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <select class="form-control" id="Section" name="Section" required>
+                    <option selected style="display:none;" disabled value="">Select Section</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select class="form-control" id="Subject" name="Subject" required>
+                    <option selected style="display:none;" disabled value="">Select Subject</option>
+                </select>
+            </div>
+          
+        </div>
+
+
+    }
+    else
+    {
+        <div class="form-inline">
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.DropDownListFor(model => model.HomeWorkTypeId, ViewBag.type as SelectList, "Select Type", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.HomeWorkTypeId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.DropDownListFor(model => model.ClassId, ViewBag.classes as SelectList, "Select Class", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ClassId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.DropDownListFor(model => model.SecionId, ViewBag.sections as SelectList, "Select Section", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SecionId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.DropDownListFor(model => model.SubjectId, ViewBag.subjects as SelectList, "Select Subject", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+    }
+
+
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control"} })
+                    @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group" >
+                <div class="col-md-offset-2 col-md-6">
+                    <input type="submit" value="Submit" class="btn btn-primary" />|
+                 <span id="btn">@Html.CheckBoxFor(a => a.SMS_Status, new { @class = "checkBox1" }) Send SMS</span>  
+
+                </div>
+            </div>
+        </div>
+
+}
+<hr />
+@Html.ActionLink("Back To list", "Show", "HomeWork")
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

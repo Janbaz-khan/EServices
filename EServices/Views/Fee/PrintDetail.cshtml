@@ -1,0 +1,216 @@
+﻿@model EServices.Models.Fee.FeePayment
+
+@{
+    ViewBag.Title = "Print record";
+    Layout = null;
+}
+
+
+
+<link href="~/Content/feePrint.css" rel="stylesheet" />
+<style>
+
+</style>
+<div id="print_Area">
+    <img src="~/AppFolder/Images/Logo.jpg" /><hr />
+        <table class="table  table1">
+            <tr>
+                <th>Name:</th>
+                <td>@Model.Students.StudentName</td></tr>
+           <tr>
+                <th>Class:</th>
+                <td>@Model.Classes.ClassName</td></tr>
+            <tr>
+                <th>Section:</th>
+                <td>@Model.Sections.SectionName</td>
+            </tr>
+            <tr>
+                <th>Session:</th>
+                <td>@Model.Sessions.SessionName</td>
+            </tr>
+        </table>
+   
+        <div class="row">
+
+            <div class="col-xs-6">
+    
+
+                <table class=" table table2 table-bordered">
+
+
+                    <tr class="lightblue">
+                        <th style="color:white">Fee type</th>
+                        <td style="color:white">Amount</td>
+                    </tr>
+                    <tr>
+                        <th>Monthly fee </th>
+                        <td>@Model.Normal.MonthlyFee</td>
+
+                    </tr>
+                    <tr>
+                        <th>Exam fee </th>
+                        <td>@Model.Normal.ExamFee</td>
+
+                    </tr>
+                    <tr>
+                        <th>Admission fee </th>
+                        <td>@Model.Normal.AdmissionFee</td>
+                    </tr>
+                    <tr>
+                        <th>Promotion fee </th>
+                        <td>@Model.Normal.PromotionFee</td>
+                    </tr>
+                  
+                    <tr>
+                        <th>Books </th>
+                        <td>@Model.Stationary.Books</td>
+                    </tr>
+                    <tr>
+                        <th>Note Books </th>
+                        <td>@Model.Stationary.Note_Books</td>
+                    </tr>
+                    <tr>
+                        <th>HomeWork_Dairy </th>
+                        <td>@Model.Stationary.Homework_Dairy</td>
+                    </tr>
+
+                    <tr>
+                        <th>Uniform </th>
+                        <td>@Model.Stationary.Uniform</td>
+                    </tr>
+                    <tr>
+                        <th>Cap </th>
+                        <td>@Model.Stationary.Cap</td>
+                    </tr>
+                    <tr>
+                        <th>Scarf </th>
+                        <td>@Model.Stationary.Scarf</td>
+                    </tr>
+                </table>
+  
+            </div>
+            <div class="col-xs-6">
+                <table class=" table table2 table-bordered">
+
+                  
+                  
+                    <tr>
+                        <th>Stationary </th>
+                        <td>@Model.Stationary.Staionary</td>
+                    </tr>
+                    <tr>
+                        <th>Shoes </th>
+                        <td>@Model.Stationary.Shoes</td>
+                    </tr>
+                    <tr>
+                        <th>Socks </th>
+                        <td>@Model.Stationary.socks</td>
+                    </tr>
+                    <tr>
+                        <th>SchoolBag </th>
+                        <td>@Model.Stationary.SchoolBag</td>
+                    </tr>
+                    <tr>
+                        <th>School_IDCard </th>
+                        <td>@Model.Stationary.School_IDCard</td>
+                    </tr>
+                    <tr>
+                        <th>Fine </th>
+                        <td>@Model.Fine</td>
+                    </tr>
+                    <tr>
+                        <th>Other charges </th>
+                        <td>@Model.OtherCharges</td>
+                    </tr>
+                    <tr style="background-color:#e6e4e4">
+                        <th>Total </th>
+                        <td>@Model.Total</td>
+                    </tr>
+                    <tr style="font-style:italic;background:white">
+                        <th>Arrears </th>
+                        <td>@Model.OutStand</td>
+                    </tr>
+                    <tr>
+                        <th>Discount</th>
+                        <td>@Model.Discount</td>
+                    </tr>
+                    <tr style="background-color:#e6e4e4">
+                        <th>Net Total </th>
+                        <td>@Model.NetTotal</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+ 
+
+        <table class="table table2 table-condensed">
+        
+            <tr>
+                <th>Paid</th>
+                <td>@Model.Paid</td>
+            </tr>
+            <tr>
+                <th>Carry Forward</th>
+                <td>@Model.CarryForward</td>
+            </tr>
+        </table>
+
+  
+</div>
+<button type="button" class="btn btn-warning" id="btnPrint"><i class="glyphicon glyphicon-print"></i> Print this</button>
+<button type="button" class="btn btn-default" id="" data-dismiss="modal"><i class="glyphicon glyphicon-folder-close"></i> Close</button>
+
+<script src="~/Scripts/printThis.js"></script>
+<script>
+    $('#btnPrint').click(function () {
+        $('#print_Area').printThis({
+            debug: false,               // show the iframe for debugging
+            importCSS: true,            // import parent page css
+            importStyle: false,         // import style tags
+            printContainer: true,       // print outer container/$.selector
+            loadCSS: "~/Content/feePrint.css",                // path to additional css file - use an array [] for multiple
+            pageTitle: "",              // add title to print page
+            removeInline: false,        // remove inline styles from print elements
+            removeInlineSelector: "*",  // custom selectors to filter inline styles. removeInline must be true
+            printDelay: 333,            // variable print delay
+            header: "",               // prefix to html
+            footer: "",               // postfix to html
+            base: false,                // preserve the BASE tag or accept a string for the URL
+            formValues: true,           // preserve input/form values
+            canvas: false,              // copy canvas content
+            doctypeString: '...',       // enter a different doctype for older markup
+            removeScripts: false,       // remove script tags from print content
+            copyTagClasses: false,      // copy classes from the html & body tag
+            beforePrintEvent: null,     // function for printEvent in iframe
+            beforePrint: null,          // function called before iframe is filled
+            afterPrint: null            // function called before iframe is removed
+        });
+    })
+
+    //$('#tbl1').DataTable({
+    //    "paging": false,
+    //    'searching': false,
+    //    "ordering": false,
+    //    "info": false,
+    //    dom: 'Bfrtip',
+    //    buttons: [
+    //        {
+    //            extend: 'print',
+    //            title:'',
+    //            text: 'Print record',
+    //            customize: function (win) {
+    //                $(win.document.body)
+    //                    .css('font-size', '10pt')
+    //                    .prepend(
+    //                    '<h3>The Harvard School System </h3><p>Bannu City</p><h4> Print Fee Detail</h4>' +
+    //                    '<div style="position:absolute;top:90%">Accountant Sign: _______________<br /><br />  Parent Sign: ______________</div>'
+    //                    );
+
+    //                $(win.document.body).find('table')
+    //                    .addClass('compact')
+    //                    .css('font-size', 'inherit');
+    //            }
+    //        }
+    //    ]
+    //});
+</script>

@@ -1,0 +1,139 @@
+﻿@model EServices.Models.StudentRegistrationModel
+
+@{
+    ViewBag.Title = "StudentDetails";
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <img src="@Url.Content(Model.Image)" style="width:150px;height:150px;" /><br>
+        <h1>
+            <strong>@Html.DisplayFor(model => model.StudentName)</strong>
+
+        </h1>
+
+    </div>
+    <div class="col-md-4">
+
+
+
+
+        <br />
+        <h4>
+            <strong>Father Name: </strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.Parent.FatherName)
+        </h4><br />
+        <h4>
+            <strong>Father CNIC:</strong>
+        </h4>
+        <h4>
+            @Html.DisplayFor(model => model.Parent.CNIC)
+        </h4><br />
+        <h4>
+            <strong>Sib Category:</strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.SibCategory)
+        </h4>
+        <br>
+        <h4>
+            <strong>Gender</strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.Gender.GenderName)
+        </h4><br />
+        <h4>
+            <strong>Date Of Birth: </strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.DOB)
+        </h4>
+        <br>
+        <h4>
+            <strong>Address: </strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.Address)
+        </h4><br />
+
+        <h4>
+            <strong>Class : </strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.Class.ClassName)
+        </h4>
+        <br>
+
+
+    </div>
+    <div class="col-md-4">
+        <h4>
+            <strong>Section: </strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.Sections.SectionName)
+        </h4><br />
+        <h4>
+            <strong>Session: </strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.Sessions.SessionName)
+        </h4><br />
+
+        <h4>
+            <strong>Addmission Date: </strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.AddmissionDate)
+        </h4>
+        <br />
+        <h4>
+            <strong>Religion: </strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.Religion.ReligionName)
+        </h4>
+        <br />
+
+
+        <h4>
+            Postal Address:
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.Parent.PostelAddress)
+        </h4><br />
+
+        <h4>
+            Phone No:
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.Parent.PhoneNo)
+        </h4>
+        <h4>
+            Emeergancy No:
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.Parent.EmergancyNo)
+        </h4><br />
+
+    </div>
+    @*<div class="pull-right" style="margin-right:5px;">
+        <button class="btn btn-warning" data-dismiss="modal">Close</button>
+        </div>*@
+</div>

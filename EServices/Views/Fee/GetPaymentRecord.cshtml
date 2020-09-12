@@ -1,0 +1,50 @@
+﻿@model EServices.Models.Fee.FeePayment
+@{
+    ViewBag.Title = "GetPaymentRecord";
+    Layout = null;
+}
+
+<h3>Pay amount </h3>
+ 
+<h4>Total: @Model.CarryForward</h4>
+<h4>Month: @Model.Months.MonthName</h4>
+<hr />
+<form id="feeForm2">
+    @Html.HiddenFor(a => a.FeePaymentId)
+    <span>Discount</span>
+    @Html.TextBoxFor(a => a.Discount, new { @class = "form-control", @Value = "", required = true })<hr />
+    <span>Pay</span>
+    @Html.TextBoxFor(a => a.Paid, new { @class = "form-control", @Value = "", required = true })<hr />
+    <input type="button" id="btnSubmit" value="Pay" class="btn btn-primary" />
+    <input type="button" value="Close" data-dismiss="modal" class="btn btn-default " />
+    <img src="~/AppFolder/GIF/giphy.gif" id="loader2" width="130" height="130" style="display:none" />
+
+    <label id="msg"></label>
+</form>
+
+
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+
+    $('#btnSubmit').click(function () {
+        var formData = $('#feeForm2').serialize();
+        if ($('#feeForm2').valid()) {
+            $('#loader2').show();
+            $.ajax({
+                type: "POST",
+                url: "/Fee/GetPaymentRecord/",
+                data: formData,
+                success: function (response) {
+                    $('#msg').empty();
+                    $('#msg').append(response);
+                    //$('#msg').show();
+                    $('#loader2').hide();
+
+                }
+            })
+        }
+    })
+</script>

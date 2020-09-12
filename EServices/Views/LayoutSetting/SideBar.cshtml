@@ -1,0 +1,213 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+@if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+{
+
+
+    <aside class="main-sidebar">
+        <!-- sidebar-->
+        <section class="sidebar">
+            <!-- sidebar menu-->
+            <ul class="sidebar-menu" data-widget="tree">
+
+                <li class="header nav-small-cap">Home</li>
+                <li>
+                    <a href="/Home/Index/">
+                        <i class="ti-dashboard"></i> <span>Dashboard</span>
+                    </a>
+                </li>
+                @if (User.IsInRole("Admin"))
+                {
+                <li class="treeview">
+                    <a href="#">
+                        <i class="ti-user"></i>
+                        <span>Admission</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="@Url.Action("Index", "Admission")"><i class="ti-more"></i> Student Admission</a></li>
+
+                    </ul>
+                </li>
+                }
+                <li class="treeview">
+                    <a href="#">
+                        <i class="ti-money"></i>
+                        <span>Fee</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="@Url.Action("LoadAllStudentInClass", "Fee")"><i class="ti-more"></i> Submit Fee</a></li>
+                        <li><a href="@Url.Action("FeeDetails", "Fee")"><i class="ti-more"></i>Submit Fee Single</a></li>
+                        <li><a href="@Url.Action("ViewDetails", "Fee")"><i class="ti-more"></i>Fee Detail</a></li>
+                        <li><a href="@Url.Action("Index", "FeeSetting")"><i class="ti-more"></i> Setting</a></li>
+
+                    </ul>
+                </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="ti-clipboard"></i>
+                        <span>Attendance</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="@Url.Action("Index", "Attendance")"><i class="ti-more"></i> Student Attendance</a></li>
+                        <li><a href="@Url.Action("Details", "Attendance")"><i class="ti-more"></i> Attendance Detail</a></li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li><a href="@Url.Action("TeacherAttendace","Attendance")"><i class="ti-more"></i> Teacher Attendance</a></li>
+                            <li><a href="@Url.Action("TeacherDetail","Attendance")"><i class="ti-more"></i> Teacher Details</a></li>
+                        }
+                    </ul>
+                </li>
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="ti-crown"></i>
+                            <span>Staff</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-right pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Index", "Staff")"><i class="ti-more"></i>Staff Details</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="ti-flickr"></i>
+                            <span>SMS</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-right pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Index", "SendSMS")"><i class="ti-more"></i> Send SMS</a></li>
+                            <li><a href="@Url.Action("Index", "SMSDevices")"><i class="ti-more"></i> SMS Setting</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="ti-map"></i>
+                            <span>Mapping</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-right pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a class="" href="@Url.Action("Index", "TeacherMapping")">       <i class="ti-more"></i> Teacher Mapping</a></li>
+                            <li><a class="" href="@Url.Action("Index", "HeadTeacherMapping")">   <i class="ti-more"></i> Head Teacher Mapping</a></li>
+                            <li><a class="" href="@Url.Action("ViewSubjects", "TeacherMapping")"><i class="ti-more"></i> Subjects</a></li>
+                        </ul>
+                    </li>
+                }
+
+                
+                <li class="treeview">
+                    <a href="#">
+                        <i class="ti-clip"></i>
+                        <span>Results</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a class="" href="@Url.Action("Index", "TestResult")">    <i class="ti-more"></i>   Tests</a></li>
+                        <li><a class="" href="@Url.Action("Index", "Result")">        <i class="ti-more"></i>   Exams</a></li>
+                        <li><a class="" href="@Url.Action("ViewExamType", "Result")"> <i class="ti-more"></i> Add Exam</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="ti-ink-pen"></i>
+                        <span>HomeWorks</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a class="" href="@Url.Action("Index", "HomeWork")"> <i class="ti-more"></i>   Add Homework</a></li>
+                        <li><a class="" href="@Url.Action("Show", "HomeWork")"> <i class="ti-more"></i>   Detail</a></li>
+                    </ul>
+                </li>
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="ti-arrow-up"></i>
+                            <span>Promotion</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-right pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a class="" href="@Url.Action("index", "Promotion")"> <i class="ti-more"></i> Student Promotion</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="ti-agenda"></i>
+                            <span>User Management</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-right pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a class="" href="@Url.Action("Users", "MemberRegistration")"> <i class="ti-more"></i> Manage Users</a></li>
+                        </ul>
+                    </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="ti-receipt"></i>
+                        <span>Reports</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a class="" href="@Url.Action("ViewResult", "TestResult")"> <i class="ti-more"></i>   Tests</a></li>
+                        <li><a class="" href="@Url.Action("ViewResult", "Result")"> <i class="ti-more"></i>   Exams/Subjectwise</a></li>
+                        <li><a class="" href="@Url.Action("FullResult", "Report")"> <i class="ti-more"></i>  Exams</a></li>
+                        <li><a class="" href="@Url.Action("ViewDetails", "Fee")"><i class="ti-more"></i> Fee</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="ti-back-left"></i>
+                        <span>Leave School</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a class="" href="@Url.Action("Index", "LeaveSchool")"><i class="ti-more"></i> Student</a></li>
+                        <li><a class="" href="@Url.Action("Teachers", "LeaveSchool")"> <i class="ti-more"></i>Teacher</a></li>
+
+                    </ul>
+                </li>
+                }
+                <li>
+                    <a href="/Login/Logout/">
+                        <i class="ti-zoom-out"></i> <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </section>
+    </aside>
+}

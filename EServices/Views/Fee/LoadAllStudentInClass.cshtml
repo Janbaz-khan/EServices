@@ -1,0 +1,323 @@
+﻿@model List<EServices.Models.StdParentViewModel>
+@{
+    ViewBag.Title = "FeeDetais";
+    // Layout = null;
+}
+<link href="~/Content/checkbox.css" rel="stylesheet" />
+
+<style>
+    .txt{
+        width:60px;
+    }
+ 
+</style>
+
+<ol class="breadcrumb">
+    <li><a href="@Url.Action("LoadAllStudentInClass","Fee")" id="frst"><i class="fa fa fa-file-archive"></i> Add Fee</a></li>
+    <li><a id="lst" href="@Url.Action("ViewDetails","Fee")"><i class="fa fa-file-alt"></i> View Details</a></li>
+</ol>
+<hr />
+<h4>Add Fee on one click</h4>
+<img src="~/AppFolder/GIF/giphy.gif" id="loader" style="display:none;width:200px;height:200px;" />
+
+@if (ViewBag.error!=null)
+{
+    <div class="alert alert-danger">@ViewBag.error</div>
+}
+@if (TempData["list"] == null)
+{
+    if (User.IsInRole("Teacher"))
+    {
+        <div class="form-type-roundinput">
+            @using (Html.BeginForm())
+            {
+                <div class="form-group col-sm-4">
+
+                    @Html.DropDownList("Class", ViewBag.Classes as SelectList, "Select Class", new { @class = "form-control", @id = "classId", @required = "true" })
+
+                </div>
+                <div class="form-group col-sm-4">
+                    <select id="Section" name="Section" class="form-control" required>
+                        <option selected style="display:none;" disabled value="">Select Section</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-4">
+                    <input type="submit" value="Load" name="" class="btn btn-info" />
+                </div>
+
+            }
+        </div>
+
+    }
+    else
+    {
+        <div class="form-type-roundinput">
+            @using (Html.BeginForm())
+            {
+
+                <div class="form-group col-sm-4">
+
+                    @Html.DropDownList("Class", ViewBag.Classes as SelectList, "Select Class", new { @class = "form-control", @required = "true" })
+
+                </div>
+                <div class="form-group col-sm-4">
+                    @Html.DropDownList("Section", ViewBag.sections as SelectList, "Select Section", new { @class = "form-control", @required = true })
+                </div>
+                <div class="form-group col-sm-4">
+                    <input type="submit" value="Load" name="" class="btn btn-info" />
+                </div>
+
+            }
+        </div>
+    }
+ 
+}<hr />
+@if (TempData["messagelist"] != null)
+{
+    foreach (var item in TempData["messagelist"] as List<EServices.Models.Fee.FeeMessage>)
+    {
+        if (item.Status)
+        {
+            <span class="alert alert-success ">@item.Message</span><hr />
+        }
+        else
+        {
+            <span class="alert alert-danger ">@item.Message</span><hr />
+
+        }
+    }
+}
+else
+{
+    <hr />
+                if (TempData["list"] != null)
+                {
+                    var lis = TempData["list"] as IEnumerable<EServices.Models.StudentRegistrationModel>;
+                    var i = 0;
+                    if (lis.Count() > 0)
+                    {
+            using (Html.BeginForm("AddFeeAt" +
+                "Once","Fee"))
+            {
+           <div class="table-responsive">
+
+            <table class="table table-striped" width="100%" id="tbl">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>F/Name</th>
+                        <th >NormalFee</th>
+                        <th class="hw">Hw_Diary <input type="checkbox" id="hwCheck" /></th>
+                        <th class="ntb">NoteBook <input type="checkbox" id="ntbCheck" /></th>
+                        <th class="stationary">Stationary <input type="checkbox" id="stationaryCheck" /></th>
+                        <th class="shoes">Shoes_Fee <input type="checkbox" id="shoesCheck" /></th>
+                        <th class="socks">Socks_Fee <input type="checkbox" id="socksCheck" /></th>
+                        <th class="sbg">SchoolBage <input type="checkbox" id="sbgCheck" /></th>
+                        <th class="sic">School_IdCard <input type="checkbox" id="sicCheck" /></th>
+                        <th class="uni">Uniform <input type="checkbox" id="uniCheck" /></th>
+                        <th class="cf">Cap_Fee <input type="checkbox" id="cfCheck" /></th>
+                        <th class="scf">Scarf_Fee <input type="checkbox" id="scfCheck" /></th>
+                        <th class="other">Other Charges <input type="checkbox" id="otherCheck" /></th>
+                        <th class="books">Books <input type="checkbox" id="booksCheck" /></th>
+                        <th class="fine">_Fine <input type="checkbox" id="fineCheck" /></th>
+                        <th>@Html.CheckBox("checkBox", new { @id = "checkAll" }) SMS</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in TempData["list"] as IEnumerable<EServices.Models.StudentRegistrationModel>)
+                    {
+                       
+                            <tr >
+
+                                @Html.HiddenFor(a => a[i].AddmissionNo, new { @Value = item.AddmissionNo })
+                                @Html.HiddenFor(a => a[i].ClassId, new { @Value = item.ClassId })
+                                @Html.HiddenFor(a => a[i].SessionId, new { @Value = item.SessionId })
+                                @Html.HiddenFor(a => a[i].SectionId, new { @Value = item.SectionId })
+                                @Html.HiddenFor(a => a[i].MonthId, new { @Value = DateTime.Now.Month })
+                                <td><img src="@Url.Content(item.Image)" width="40" height="40" class="img-circle" /> @item.StudentName</td>
+                                <td>@item.Parent.FatherName</td>
+
+                                <td><a href="#" onclick="normalFeeDetail()">@ViewBag.TotalNormalFee</a></td>
+
+                                <td class="hw">
+                                    @Html.TextBoxFor(a => a[i].Homework_Dairy, new { @class = "txt ", @Value = 0 })
+                                    @Html.ValidationMessageFor(model => model[i].Homework_Dairy, "", new { @class = "text-danger" })
+                                </td>
+                                <td class="ntb">
+                                    @Html.TextBoxFor(a => a[i].Note_Books, new { @class = "txt ", @Value = 0 })
+                                    @Html.ValidationMessageFor(model => model[i].Note_Books, "", new { @class = "text-danger" })
+                                </td>
+
+                                <td class="stationary">
+                                    @Html.TextBoxFor(a => a[i].Staionary, new { @class = "txt", @Value = 0 })
+                                    @Html.ValidationMessageFor(model => model[i].Staionary, "", new { @class = "text-danger" })
+                                </td>
+                                <td class="shoes">
+                                    @Html.TextBoxFor(a => a[i].Shoes, new { @class = "txt ", @Value = 0 })
+                                    @Html.ValidationMessageFor(model => model[i].Shoes, "", new { @class = "text-danger" })
+                                </td>
+                                <td class="socks">
+                                    @Html.TextBoxFor(a => a[i].socks, new { @class = "txt ", @Value = 0 })
+                                    @Html.ValidationMessageFor(model => model[i].socks, "", new { @class = "text-danger" })
+                                </td>
+                                <td class="sbg">
+                                    @Html.TextBoxFor(a => a[i].SchoolBag, new { @class = "txt ", @Value = 0 })
+                                    @Html.ValidationMessageFor(model => model[i].SchoolBag, "", new { @class = "text-danger" })
+                                </td>
+                                <td class="sic">
+                                    @Html.TextBoxFor(a => a[i].School_IDCard, new { @class = "txt", @Value = 0 })
+                                    @Html.ValidationMessageFor(model => model[i].School_IDCard, "", new { @class = "text-danger" })
+                                </td>
+                                <td class="uni">
+                                    @Html.TextBoxFor(a => a[i].Uniform, new { @class = "txt ", @Value = 0 })
+                                    @Html.ValidationMessageFor(model => model[i].Uniform, "", new { @class = "text-danger" })
+                                </td>
+                                <td class="cf">
+                                    @Html.TextBoxFor(a => a[i].Cap, new { @class = "txt ", @Value = 0 })
+                                    @Html.ValidationMessageFor(model => model[i].Cap, "", new { @class = "text-danger" })
+                                </td>
+                                <td class="scf">
+                                    @Html.TextBoxFor(a => a[i].Scarf, new { @class = "txt ", @Value = 0 })
+                                    @Html.ValidationMessageFor(model => model[i].Scarf, "", new { @class = "text-danger" })
+                                </td>
+                                <td class="other">
+                                    @Html.TextBoxFor(a => a[i].OtherCharges, new { @class = " txt", @Value = 0 })
+                                    @Html.ValidationMessageFor(model => model[i].OtherCharges, "", new { @class = "text-danger" })
+                                </td>
+                                <td class="books">
+                                    @Html.TextBoxFor(a => a[i].Books, new { @class = "txt ", @Value = 0 })
+                                    @Html.ValidationMessageFor(model => model[i].Books, "", new { @class = "text-danger" })
+                                </td>
+                                <td class="fine">
+                                    @Html.TextBoxFor(a => a[i].Fine, new { @class = "txt", @Value = 0 })
+                                    @Html.ValidationMessageFor(model => model[i].Fine, "", new { @class = "text-danger" })
+                                </td>
+                                <td>@Html.CheckBoxFor(a => a[i].SmsStatus, new { @class = "checkBox1" }) </td>
+                            </tr>
+                        
+
+                        i++;
+                    }
+
+                </tbody>
+            </table>
+            <input type="submit" value="Submit" class="btn btn-primary" />
+           </div>     
+
+            }
+                            }
+        else
+        {
+            <h3 class="text-center text-danger">No result found</h3>
+        }
+    }
+ 
+}
+
+<div class="modal modal-open fade" id="detailModal"  tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content info">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="close">&times;</a>
+                <div class="modal-title" id="title">
+                    <h4>Fee Detail</h4>
+                </div>
+            </div>
+            <div class="modal-body" id="addModalBody">
+                Monthly Fee:
+                <input type="text" class="form-control" value="@ViewBag.monthly" readonly />
+                Promotion Fee:
+                <input type="text" class="form-control" value="@ViewBag.promotion" readonly />
+                Exam Fee:
+                <input type="text" class="form-control" value="@ViewBag.exam" readonly />
+                Admission Fee:
+                <input type="text" class="form-control" value="@ViewBag.admission" readonly />
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script>
+
+    $('#checkAll').click(function () {
+        $('input:checkbox').prop('checked', this.checked);
+    });
+    $('#hwCheck').click(function () {
+        $('.hw').hide();
+    });
+    $('#ntbCheck').click(function () {
+        $('.ntb').hide();
+    });
+    $('#stationaryCheck').click(function () {
+        $('.stationary').hide();
+    });
+    $('#shoesCheck').click(function () {
+        $('.shoes').hide();
+    });
+    $('#socksCheck').click(function () {
+        $('.socks').hide();
+    });
+    $('#sbgCheck').click(function () {
+        $('.sbg').hide();
+    });
+    $('#sicCheck').click(function () {
+        $('.sic').hide();
+    });
+    $('#uniCheck').click(function () {
+        $('.uni').hide();
+    });
+    $('#cfCheck').click(function () {
+        $('.cf').hide();
+    });
+    $('#scfCheck').click(function () {
+        $('.scf').hide();
+    });
+    $('#otherCheck').click(function () {
+        $('.other').hide();
+    });
+    $('#booksCheck').click(function () {
+        $('.books').hide();
+    });
+    $('#fineCheck').click(function () {
+        $('.fine').hide();
+    });
+    function normalFeeDetail() {
+        $('#detailModal').modal('show');
+    }
+ 
+    $('.monthly').keyup(function () {
+        var value = $(this).val();
+        $('.monthly').val(value);
+    })
+    $('.admission').keyup(function () {
+        var value = $(this).val();
+        $('.admission').val(value);
+    })
+    $('.exam').keyup(function () {
+        var value = $(this).val();
+        $('.exam').val(value);
+    })
+    $('.promotion').keyup(function () {
+        var value = $(this).val();
+        $('.promotion').val(value);
+    })
+    //function addFee(id) {
+    //    $('#loader').show();
+    //    var url = "/Fee/AddFee/" + id;
+    //    $('#feeModalBody').load(url, function () {
+    //        $('#feeModal').modal('show');
+    //        $('#loader').hide();
+    //    })
+    //}
+    //function sibDis() {
+    //    var url = "/Fee/AddSibDiscount/";
+    //    $('#feeModalBody').load(url, function () {
+    //        $('#feeModal').modal('show');
+    //    })
+    //}
+</script>
+
+
+

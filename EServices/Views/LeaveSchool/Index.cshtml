@@ -1,0 +1,94 @@
+﻿@model IEnumerable<EServices.Models.StudentRegistrationModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+@Styles.Render("~/DataTableCss")
+<h4>Leave School</h4>
+
+<table class="table" id="tbl">
+    <thead>
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentName)
+        </th>
+        <th>Admission No</th>
+        <th>
+            @Html.DisplayNameFor(model => model.ParentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DOB)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClassId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SectionId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SessionId)
+        </th>
+       <th>
+           Status
+       </th>
+        
+        <th></th>
+      
+    </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@Url.Content(item.Image)" width="40" height="40" /> @Html.DisplayFor(modelItem => item.StudentName)
+                </td>
+                <td>@item.AddmissionNo</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Parent.FatherName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DOB)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Class.ClassName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sections.SectionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sessions.SessionName)
+                </td>
+                @if (item.Status)
+           {
+        <td class="text-primary">Active</td>
+        <td>
+            <a href="@Url.Action("Leave", "LeaveSchool", new { id=item.AddmissionNo })" class="btn btn-danger btn-xs">Leave</a>
+        </td>
+           }
+           else
+           {
+        <td class="text-danger">Left</td>
+        <td>
+            <a href="@Url.Action("Leave", "LeaveSchool", new { id=item.AddmissionNo })" class="btn btn-success btn-xs">Come back</a>
+        </td>
+           }
+
+
+            </tr>
+        }
+    </tbody>
+</table>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+@Scripts.Render("~/DataTableJs")
+<script>
+    $('#tbl').DataTable();
+</script>

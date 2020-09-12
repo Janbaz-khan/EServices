@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@Styles.Render("~/DataTableCss")
+<a href="#" class="btn btn-primary" onclick="add()" style="margin-bottom:50px;"><i class="fa fa-plus"></i> Add New Mapping</a>
+
+
+    @if (ViewBag.list != null)
+    {
+<h4>Class head teachers</h4>
+        <hr />
+        <img src="~/AppFolder/GIF/giphy.gif" id="loader" style="display:none;width:200px;height:200px;" />
+
+        <table class="table" id="tbl">
+            <thead style="color:white">
+
+                <tr>
+                    <th>
+                        Teacher
+                    </th>
+                    <th>
+                        Section
+                    </th>
+                  
+                    <th>
+                        Class
+                    </th>
+                    <th>
+                        Session
+                    </th>
+
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+
+                @foreach (var item in ViewBag.list as IEnumerable<EServices.Models.ClassMapping.ClassHeadTeacher>)
+                {
+                    <tr>
+                        <td>
+                            <img src="@Url.Content(item.Teacher.Image)" width="40" height="40" class="img-circle" />  @Html.DisplayFor(modelItem => item.Teacher.EmpName)
+                        </td>
+                        <td>
+                            @item.Sections.SectionName
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Classes.ClassName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Sessions.SessionName)
+                        </td>
+
+                        <td>
+                            <a href="#" onclick="confirm(@item.HeadTeacherId)" class="btn btn-xs btn-warning"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h4>No data found</h4>
+    }
+
+
+<label id="hValue"></label>
+<div class="modal modal-right fade" id="addEdit" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog dModal">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="close">&times;</a>
+                <div class="modal-title">
+                    <h4> Add/Edit Record</h4>
+                </div>
+            </div>
+            <div class="modal-body" id="Body">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal modal-danger fade" id="confirmModal" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog dModal">
+        <div class="modal-content ">
+            <div class="modal-body" id="confirmClass">
+                <h4>Are you sure ? you want to delete this mapping</h4>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-danger" onclick="deleteRow()">Delete</a>
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+@Scripts.Render("~/DataTableJs")
+<script>
+    $('#tbl').DataTable();
+    function add() {
+        $('#loader').show();   
+
+        var url = "/HeadTeacherMapping/AddMapping/";
+        $('#Body').load(url, function () {
+            $('#addEdit').modal('show');
+            $('#loader').hide();   
+
+        });
+    }
+    function confirm(MapId) {
+        $('#hValue').val(MapId);
+        $('#confirmModal').modal('show');
+    }
+    function deleteRow() {
+        var id = $('#hValue').val();
+        $.ajax({
+            type: "POST",
+            url: "/HeadTeacherMapping/DeleteMapping/" + id,
+
+            success: function () {
+                window.location.reload();
+            }
+        })
+    }
+</script>

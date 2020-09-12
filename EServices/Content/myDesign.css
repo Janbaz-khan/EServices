@@ -1,0 +1,237 @@
+	
+.btnPink{
+	width: 70px;
+	height: 35px;
+	background: none;
+	position: relative;
+	overflow: hidden;
+    transition: .4s;
+	cursor: pointer;
+}
+.btn-pink1,.btn-pink2{
+		border: 1px solid #FF9696;
+        color: #FF9696;   
+}
+
+.btn-pink1:hover,.btn-pink2:hover{
+	color: white;
+}
+.btnPink::before{
+	content: '';
+	left: 0;
+	position: absolute;
+	height: 0%;
+	width: 100%;
+	background: #FF9696;
+	transition: .4s;
+	z-index: -1;
+}
+.btnPink:focus{
+	outline: none;
+	box-shadow: 0 1px 10px 0 rgba(250, 39, 39, 0.36); 
+	
+}
+.btn-pink1::before{
+	top: 0;
+	border-radius: 0 0 50% 50%;
+}
+.btn-pink2::before{
+	bottom: 0;
+	border-radius: 30% 0% 0 0;
+}
+.btn-pink1:hover::before{
+	height: 180%;
+}
+.btn-pink2:hover::before{
+	height: 100%;
+	border-bottom-right-radius: 30%;
+}
+
+.btnBlue{
+	padding:8px;
+	background: none;
+	position: relative;
+	overflow: hidden;
+    transition: .5s;
+	cursor: pointer;
+   
+}
+.btnBlue:focus{
+	outline: none;
+	box-shadow: 0 1px 10px 0 rgba(25, 127, 208, 0.35);
+}
+.btnBlue::before{
+	content: '';
+	position: absolute;
+	background: #78BDF4;
+	width: 100%;
+	height: 0%;
+	left: 0;
+	transition: .4s;
+	z-index: -1;
+}
+.btn-blue2{
+	border: 1px solid #78BDF4;
+	color: white;
+}
+.btn-blue1{
+	border: 1px solid #78BDF4;
+	color: #78BDF4;
+}
+.btn-blue1:hover{
+	color: white;
+}
+.btn-blue2:hover{
+	color: #78BDF4;
+}
+.btn-blue1::before{
+	top: 0;
+	border-radius: 0 0 50% 50%;
+	
+}
+.btn-blue2::before{
+    top: 0;
+	border-radius: 0 0 50% 50%;
+	height: 180%;
+}
+
+.btn-blue1:hover::before{
+	height: 180%;
+	
+}
+.btn-blue2:hover::before{
+	height: 0%;
+}
+
+.block{
+	width: 350px;
+	height: 200px;
+	padding: 50px;
+	color: white;
+	border-radius: 5px;
+	margin-right: 10px;
+    margin-top:20px;
+    
+}
+.block-blue{
+
+	background: linear-gradient(-90deg,#8d40f2,rgba(181, 125, 255, 0.69));
+	
+	
+}
+.block-pink{
+	background:linear-gradient(-90deg,#ef6878,rgba(255, 136, 150, 0.69)) ;
+}
+.block-light{
+	background:linear-gradient(-90deg,#0bb79f,rgba(45, 208, 185, 0.69));
+}
+.block-blueLight{
+	background: linear-gradient(-90deg,#0a8ef7,rgba(46, 149, 231, 0.69))
+}
+
+
+.sidebar{
+			width: 200px;
+			height: 100%;
+			background: #262626;
+			position: fixed;
+			top: 0px;
+			left: -200px;
+			transition: .3s;
+			display: block;
+            z-index:9999;
+           
+          
+		}
+		.active{
+			left: 0px;
+		}
+		.sidebar ul{
+			margin: 0px;
+			margin-top: 30px;
+		}
+		.sidebar li {
+			list-style: none;
+			border-bottom: 1px solid rgba(0,0,0,.3);
+			padding: 15px;
+            margin-left:-45px;
+			
+		}
+		.sidebar li a{
+			text-decoration: none;
+			color: white;			
+		}
+.sideBtn {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    background:none;
+    position: absolute;
+    top: -60px;
+    left: 200px;
+    outline: none;
+    border: none;
+    display: block;
+    box-sizing: border-box;
+    margin-top: 60px;
+    border-radius: 5px;
+}
+		.sideBtn span{
+			width: 30px;
+			height: 2px;
+			background: gray;
+			position: absolute;
+			left: 8px;
+			display: block;
+		}
+		.sideBtn span::before{
+			content: '';
+			width: 30px;
+			height: 2px;
+			background: gray;
+			position: absolute;
+			top: -5px;
+			left: 0px;
+		}
+		.sideBtn span::after{
+			content: '';
+			width: 30px;
+			height: 2px;
+			background: gray;
+			position: absolute;
+			top: 5px;
+			left: 0px;
+		}
+		.sideBtn.toggle span{
+			background: transparent;
+		}
+		.sideBtn.toggle span::after{
+			top: 0px;
+			transform: rotate(-45deg);
+       
+		
+		}
+            .sideBtn.toggle span::before {
+                top: 0px;
+                transform: rotate(45deg);
+           
+            }
+
+         .profile{
+             width:30px;
+             height:30px;
+             border:1px solid gray;
+             position:absolute;
+             top:10px;
+             border-radius:50%;
+             overflow:hidden;
+         }
+.form-control
+{
+    box-shadow: 0 0px 10px 0 rgba(65, 145, 208, 0.35);
+}
+    .form-control:focus {
+        outline: none;
+        box-shadow: 0 0px 10px 0 rgba(25, 127, 208, 0.55);
+        border-color: white;
+    }

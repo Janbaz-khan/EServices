@@ -1,0 +1,118 @@
+﻿@model EServices.Models.MemberRegistration
+
+@{
+    ViewBag.Title = "Create Account";
+    Layout = null;
+}
+<title>Create account</title>
+<meta name="viewport" content="width=device-width" />
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<style>
+    .form-horizontal {
+        padding: 50px;
+        background: #2A3F54;
+        color: white;
+        box-shadow: 0 10px 20px 0 rgba(0,0,0,0.9);
+    }
+
+
+    body {
+        background-image: url('../../Content/img/bg-1.jpg');
+        background-repeat: no-repeat;
+        background-position: center;
+        position: relative;
+    }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+        }
+
+    .text-danger {
+        color: #51a8f1;
+    }
+</style>
+<body>
+    <div class="container">
+        @using (Html.BeginForm())
+        {
+          <h2></h2>
+            @Html.AntiForgeryToken()
+
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+
+                    <div class="form-horizontal">
+                        @if (ViewBag.message != null)
+                        {
+                        <div class="alert alert-danger">@ViewBag.message</div>
+                        }
+                      
+                        <h4 class="text-center">Create Account</h4>
+                        <hr />
+
+                        
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email :adc@xyz.com" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.CNIC, new { htmlAttributes = new { @class = "form-control", @placeholder = "type without dashes (11101xxxxxxxx)" } })
+                                @Html.ValidationMessageFor(model => model.CNIC, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = " Password" } })
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                      
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(x => x.LoginType, new[] {
+                new SelectListItem() {Text = "Parent"},
+                new SelectListItem() {Text = "Teacher"},
+                }, " Registration Type", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.LoginType, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class=" col-md-12">
+                                <input type="submit" value="Create" class="btn btn-warning btn-block" /><hr />
+                                <a href="@Url.Action("Login","Login")" class="btn btn-success btn-block">Login</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        }
+    </div>
+</body>
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/Ripples/jquery.ripples-min.js"></script>
+<script>
+
+    $('body').ripples({
+        resolution:512,
+        dropRadius: 20, //px
+        perturbance: 0.04,
+    });
+</script>

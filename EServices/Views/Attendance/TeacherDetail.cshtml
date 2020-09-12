@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "Details";
+}
+@Styles.Render("~/DataTableCss")
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/themes/base/datepicker.css" rel="stylesheet" />
+<ol class="breadcrumb">
+    <li><i class="fa fa-user-circle"></i><a href="@Url.Action("TeacherAttendace","Attendance")">Teacher Attendance</a></li>
+    <li><i class="fa fa-pagelines"></i><a href="@Url.Action("TeacherDetail","Attendance")">Teacher Details</a></li>
+</ol>
+
+
+<img src="~/AppFolder/GIF/giphy.gif" id="loader" style="display:none;width:200px;height:200px;" />
+
+    <div class="form-type-roundinput">
+        @using (Html.BeginForm())
+        {
+            <div class="form-group col-sm-4">
+
+                <input type="text" name="Date" id="Date" class="form-control" value="@ViewBag.LocalTime" required placeholder="mm/dd/yy" />
+
+            </div>
+            <div class="form-group col-sm-4">
+                <input type="submit" value="Load" name="" class="btn btn-info" />
+            </div>
+}
+        </div>
+<h4>Details</h4>
+<h5>Date: @ViewBag.LocalTime</h5>
+@if (ViewBag.list != null)
+{
+    <hr />
+    <table class="table table-condensed" id="tbl">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in ViewBag.list as IEnumerable<EServices.Models.Attendance.TeacherAttendance>)
+            {
+
+                <tr>
+
+                    <td><img src="@Url.Content(@item.Teachers.Image)" width="40" height="40" class="img-circle" /> @item.Teachers.EmpName</td>
+                    <td>@item.Date</td>
+                    <td>@item.Time</td>
+                    <td>@item.Status</td>
+                    <td><a href="#" onclick="edit(@item.Attendace_Id)" class="btn btn-danger btn-xs"><i class="fa fa-pencil-alt"></i></a></td>
+
+                </tr>
+
+            }
+
+        </tbody>
+    </table>
+}
+else
+{
+    <h1>No data found</h1>
+}
+<div class="modal modal-right fade" id="modal">
+    <div class="modal-dialog" style="width:70%;">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="close">&times;</a>
+                <div class="modal-title" id="title">
+                    <h4>update Attendance</h4>
+                </div>
+            </div>
+            <div class="modal-body" id="modalBody">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Content/assets/jquery-ui/jquery-ui-1.10.1.custom.min.js"></script>@Scripts.Render("~/DataTableJs")
+<script>
+    $('#Date').datepicker({
+        changeMonth: true,
+        changeYear: true
+    });
+    $('#tbl').DataTable();
+
+    function edit(Attendace_Id) {
+        $('#loader').show();
+
+        var url = "/Attendance/EditTeacher/" + Attendace_Id;
+        $('#modalBody').load(url, function () {
+            $('#modal').modal('show');
+            $('#loader').hide();
+
+
+        });
+    }
+</script>

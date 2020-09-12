@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "SetStartMonth";
+}
+@Html.Partial("Menu")
+<hr />
+<p> </p>
+<h2>Set Month</h2>
+
+<div  class="alert alert-info">
+  <i class="glyphicon glyphicon-info-sign"> </i>  <strong>choose month as start month of the year for admission,it will help for system generated  monthly-vised fee record for each student</strong>
+</div>  
+<center>
+
+
+    @using (Html.BeginForm())
+    {
+
+        @Html.DropDownList("Month", ViewBag.Months as SelectList, "Select Month", new { @class = "form-control",@required="true" })
+        <p> </p>
+        <input type="submit" value="Submit" class="btn btn-primary" />
+    }
+
+       <h3 class="text-info"><strong>@ViewBag.selected</strong></h3>
+
+</center>

@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Test";
+}
+
+<h3>Send SMS</h3>
+
+@using (Html.BeginForm())
+{
+
+    <div class="form-inline">
+        @*<input type="text" class="form-control col-sm-3" name="port" id="port" placeholder="Enter Port number" />*@
+        <input type="text" class="form-control col-sm-3" name="Phone" id="Phone" placeholder="Enter Phone number" />
+        <input type="text" class="form-control col-sm-3" name="Message" id="Message" placeholder="Enter Message " />
+        <button id="btn" class="btn btn-warning" type="submit">Send SMS</button>
+    </div>
+}
+@if (ViewBag.msg!=null)
+{
+    <h4>@ViewBag.msg</h4>
+}
+@*<form id="m">
+    <input type="text" id="con" />
+    <button id="btnw" type="button">Connect</button>
+</form>*@
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+@*<script>
+    $('#btnw').click(function () {
+        var port = $('#con').val();
+        $.ajax({
+            type: 'POST',
+            url: '/SendSMS/Connect/',
+            data: { port: port },
+            success: function (response) {
+                alert(response);
+            }
+        })
+    });
+    $('#portBtn').click(function () {
+        var port = $('#port').val();
+        $.ajax({
+            type: 'POST',
+            url: '/SendSMS/Connect/',
+            data: { port: port },
+            success: function (respnse) {
+                alert(respnse);
+            }
+        })
+    })
+</script>*@

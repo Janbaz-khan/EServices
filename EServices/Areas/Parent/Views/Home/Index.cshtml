@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+<html>
+<head>
+    <title>Parent</title>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Areas/layoutDesign/bootstrap/css/bootstrap.css" rel="stylesheet" />
+<link href="~/Areas/layoutDesign/Nofication.css" rel="stylesheet" />
+<link href="~/Areas/layoutDesign/style.css" rel="stylesheet" />
+<link href="~/Areas/layoutDesign/Loader/style1.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="loadin">
+        <h1 class="h">Please Wait...</h1>
+        <h4 class="h">Welcome to E-Services</h4>
+        <h5 class="h">Loading notification...</h5>
+        <h5 class="h">this loading occur first time so don't worry about it</h5>
+        <div class="spin"></div>
+    </div>
+
+    <div class="container body-content">
+        <center>
+            <div class="home" id="home">
+                <div class="container">
+                    <div class="fb-page" data-href="https://www.facebook.com/coders.inside/" data-tabs="timeline" data-width="" data-height="" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="false"><blockquote cite="https://www.facebook.com/coders.inside/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/coders.inside/">Thē ÇõDëR&#039;$</a></blockquote></div>
+                    <div id="fb-root"></div>
+                    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v4.0"></script>
+
+                </div>
+            </div>
+        </center>
+        <div class="notification" style="display: none;" id="notification">
+            <div class="container body-content">
+                <ul class="menuu">
+                    <li id="m1" onclick="bClick(1)" class="active-tab"><i class="badge1" style="display:none"></i> Homework</li>
+                    <li id="m2" onclick="bClick(2)"><i class="badge1" style="display:none"></i> Attendance</li>
+                    <li id="m3" onclick="bClick(3)"><i class="badge1" style="display:none;"></i> Tests     </li>
+                    <li id="m4" onclick="bClick(4)"><i class="badge1" style="display:none"></i> Exams     </li>
+                </ul>
+                <div id="test">
+
+                </div>
+            </div>
+            <h6 class="pull-right" style=" color:#f19191" id="notiHead">Homework</h6>
+            <ul class="notiList" id="noti1" style="display:block"></ul>
+            <ul class="notiList" id="noti2" style="display:none"></ul>
+            <ul class="notiList" id="noti3" style="display:none"></ul>
+            <ul class="notiList" id="noti4" style="display:none"></ul>
+        </div>
+        <div class="option" style="display: none" id="option">
+            <h4>Your kids enrolled in school</h4>
+            <ul id="kid"></ul>
+            <div class="log">
+                <a href="@Url.Action("Logout","Login",new { area=""})">Log Out</a>
+            </div>
+        </div>
+        <hr />
+        <footer>
+            E-Services
+        </footer>
+    </div>
+    <a class="Abtn-menu">
+        <span></span>
+
+    </a>
+    <div class="Amenu">
+        <a class="glyphicon glyphicon-home" onclick="tabClick(1)" id="t1"></a>
+        <a class="glyphicon glyphicon-bell" onclick="tabClick(2)" id="bell" style="display:none;"></a><i id="bgMain" style="display:none" class="bg"></i>
+        <a class="lds-ripple"><div></div><div></div></a>
+        <a class="glyphicon glyphicon-option-horizontal pull-right" onclick="tabClick(3)" id="t2"></a>
+        <a class="glyphicon glyphicon-envelope pull-right" onclick="tabClick(4)" id="t3"></a>
+
+    </div>
+</body>
+</html>
+<script src="~/Areas/JavaScriptFiles/jquery-3.1.1.min.js"></script>
+<script src="~/Areas/JavaScriptFiles/jquery.signalR-2.4.1.min.js"></script>
+    <script src="~/Areas/JavaScriptFiles/notification-tab.js"></script>
+<script src="~/signalr/hubs"></script>
+<script src="~/Areas/JavaScriptFiles/MyJs.js"></script>
+
+<script>
+    //$('.loadin').fadeOut(4000, function () {
+    //    $('html, body').css({
+    //        'overflow': 'auto',
+    //        'height': 'auto'
+    //    })
+    //});
+        $(".Abtn-menu").click(function () {
+        $(this).toggleClass('btnn');
+        $(".Amenu").toggleClass('menu-open');
+        $("#menu").toggleClass('back');
+        $(this).toggleClass('toggleCancel');
+        $(this).toggleClass('moveToSide');
+    });
+         //get kids
+        $.ajax({
+            type: 'GET',
+            url: '/Parent/Home/GetKids/',
+            success: function (response) {
+                $.each(response, function (index, value) {
+                    $('#kid').append("<li class=kid><b>" + value.Name + "</b>, Class: " + value.Class + ", Section: " + value.Section + "</li>");
+                })
+            }
+        });
+   
+</script>
+

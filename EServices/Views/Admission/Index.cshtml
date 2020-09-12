@@ -1,0 +1,213 @@
+﻿@model IEnumerable<EServices.Models.StudentRegistrationModel>
+
+@{
+    ViewBag.Title = "Index";
+    
+}
+@Styles.Render("~/DataTableCss")
+
+
+@Html.Action("Menu", "Admission")
+
+
+<div id="tbl" style="margin-top:40px;">
+    <p>
+        <a href="@Url.Action("AddStudent","Admission")" class="btn btn-primary" id="addBtn" ><i class="fa fa-plus"></i> Add new</a>
+      <img src="~/AppFolder/GIF/giphy.gif"  id="loader" style="display:none;width:100px;height:100px;"/>
+      <hr />
+    </p>
+    @if (Model.Any())
+    {
+
+        <table class="table table-responsive" id="StudentTable">
+            <thead>
+                <tr>
+                 <th>Admission No.</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StudentName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Parent.FatherName)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Class.ClassName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Sections.SectionName)
+                    </th>
+
+                    <th></th>
+                 
+                </tr>
+            </thead>
+            <tbody id="data">
+
+
+                @foreach (var item in Model)
+                {
+                    <tr class="searchTr">
+
+                      <td>@item.AddmissionNo</td>
+                        <td>
+                            <img src="@Url.Content(item.Image)" style="border-radius:50%;" width="40" height="40" /> <a href="#"  onclick="Details(@item.AddmissionNo)">@item.StudentName</a>
+                        </td>
+                        <td>
+                           <a href="#"  onclick="ParentDetails(@item.AddmissionNo)"><i class="fa fa-user"></i>  @item.Parent.FatherName</a>
+                            <a href="#" class="btn btn-default btn-xs "  onclick="editParent(@item.ParentId)"> <i class="fa fa-pencil-alt"></i></a>
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Class.ClassName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Sections.SectionName)
+                        </td>
+
+
+                        <td>
+                            @*<a href="#" class="btn btn-sm btn-warning" onclick="confirmDelete(@item.AddmissionNo)"><i class="fa fa-trash"></i></a>*@
+                            <a href="#" class="btn btn-sm btn-info" onclick="edit(@item.AddmissionNo)"><i class="fa fa-pencil-alt"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+          
+
+        </table>
+        <input type="hidden" id="hId" />
+    }
+    else
+    {
+        <h3>No data found</h3>
+    }
+</div>
+<div class="modal modal-right fade" id="addEditModal" >
+    <div class="modal-dialog" style="height:130%;" >
+        <div class="modal-content info">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="close">&times;</a>
+                <div class="modal-title" id="title">
+                    <h4> Add/Edit Record</h4>
+                </div>
+            </div>
+            <div class="modal-body" id="addModalBody">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="confirmModal" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog dModal">
+        <div class="modal-content ">
+            <div class="modal-body" id="confirmClass">
+                <h4>Are you sure ? you want to delete this record</h4>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-danger" onclick="deleteRow()">Delete</a>
+                <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+@Scripts.Render("~/DataTableJs")
+
+<script>
+        
+    $('#search').keyup(function () {
+
+        searchTable($(this).val());
+    });
+    $('#StudentTable').DataTable();
+   
+    $('#frst').addClass("activee");
+    //function add() {
+    //    $('#loader').show();
+       
+    //    var url = "/Admission/AddStudent/";
+    //    $('#addModalBody').load(url, function () {
+    //        $('#title').empty();
+    //        $('#title').append("<h4>Add Student </h4>")
+    //        $('#addEditModal').modal('show');
+    //        $('#loader').hide();
+    //    });
+    //}
+    function edit(AddmissionNo) {
+        $('.modal-dialog').css("width", "90%");
+        $('#loader').show();    
+        var url = "/Admission/EditStudent/"+AddmissionNo;
+        $('#addModalBody').load(url, function () {
+            $('#title').empty();
+            $('#title').append("<h4>Edit Student</h4>")
+            $('#addEditModal').modal('show');
+            $('#loader').hide();
+
+        })
+    }
+    function ParentDetails(ParentId) {
+        $('.modal-dialog').css("width", "80%");
+        $('#loader').show();
+        var url = "/Admission/ParentDetails/" + ParentId;
+        $('#addModalBody').load(url, function () {
+            $('#title').empty();
+            $('#title').append("<h4>Parent Details</h4>")
+            $('#addEditModal').modal('show');
+            $('#loader').hide();
+
+        })
+    }
+    function confirmDelete(AddmissionNo) {
+        $('#loader').show();
+        $('#hId').val(AddmissionNo);
+        $('#confirmModal').modal('show');
+        $('#loader').hide();
+
+    }
+    function deleteRow() {
+        var id = $('#hId').val();
+        $.ajax({
+            type: 'POST',
+            url: '/Admission/DeleteStudent',
+            data: { AddmissionNo: id },
+            success: function (response) {
+
+                $('#confirmClassModal').modal('hide');
+                window.location.reload();
+            }
+
+        })
+    }
+    function Details(AddmissionNo) {
+        $('.modal-dialog').css("width", "90%");
+
+        $('#loader').show();
+        var url = "/Admission/StudentDetails/" + AddmissionNo;
+        $('#addModalBody').load(url, function () {
+            $('#title').empty();
+            $('#title').append("<h4>Student details</h4>")
+            $('#addEditModal').modal('show');
+            $('#loader').hide();
+
+        })
+    }
+    function editParent(ParentId) {
+        $('.modal-dialog').css("width", "50%");
+        $('#loader').show();
+        var url = "/Admission/EditParent/" + ParentId;
+        $('#addModalBody').load(url, function () {
+            $('#title').empty();
+            $('#title').append("<h4>Edit Parent</h4>")
+            $('#addEditModal').modal('show');
+            $('#loader').hide();
+        })
+    }
+
+</script>

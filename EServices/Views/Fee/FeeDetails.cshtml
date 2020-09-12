@@ -1,0 +1,146 @@
+﻿
+
+@{
+    ViewBag.Title = "FeeDetais";
+    //Layout = null;
+}
+@Styles.Render("~/DataTableCss")
+
+<ol class="breadcrumb">
+    <li><a href="@Url.Action("FeeDetails","Fee")" id="frst"><i class="fa fa fa-file-archive"></i> Add Fee</a></li>
+    <li><a id="lst" href="@Url.Action("ViewDetails","Fee")"><i class="fa fa-file-alt"></i> View Details</a></li>
+</ol>
+<hr />
+<h4 >Add Fee/Generate Reports</h4>
+<img src="~/AppFolder/GIF/giphy.gif" id="loader" style="display:none;width:200px;height:200px;" />
+
+@if (TempData["list"] == null)
+{
+    if (User.IsInRole("Teacher"))
+    {
+        <div class="form-type-roundinput">
+            @using (Html.BeginForm())
+            {
+                <div class="form-group col-sm-4">
+
+                    @Html.DropDownList("Class", ViewBag.Classes as SelectList, "Select Class", new { @class = "form-control", @id = "classId", @required = "true" })
+
+                </div>
+                <div class="form-group col-sm-4">
+                    <select id="Section" name="Section" class="form-control" required>
+                        <option selected style="display:none;" disabled value="">Select Section</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-4">
+                    <input type="submit" value="Load" name="" class="btn btn-info" />
+                </div>
+
+            }
+        </div>
+
+    }
+    else
+    {
+        <div class="form-type-roundinput">
+            @using (Html.BeginForm())
+            {
+
+                <div class="form-group col-sm-4">
+
+                    @Html.DropDownList("Class", ViewBag.Classes as SelectList, "Select Class", new { @class = "form-control", @required = "true" })
+
+                </div>
+                <div class="form-group col-sm-4">
+                    @Html.DropDownList("Section", ViewBag.sections as SelectList, "Select Section", new { @class = "form-control", @required = true })
+                </div>
+                <div class="form-group col-sm-4">
+                    <input type="submit" value="Load" name="" class="btn btn-info" />
+                </div>
+
+            }
+        </div>
+    }
+}
+else
+{
+    <hr />
+    if (TempData["list"] != null)
+    {
+        var lis = TempData["list"] as IEnumerable<EServices.Models.StudentRegistrationModel>;
+        if (lis.Count() > 0)
+        {
+            <table class="table table-condensed" id="tbl">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Father Name</th>
+                        <th>Class</th>
+                        <th>Session</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in TempData["list"] as IEnumerable<EServices.Models.StudentRegistrationModel>)
+                    {
+
+                        <tr>
+                            <td><img src="@Url.Content(item.Image)" width="40" height="40" class="img-circle" /> <a href="#" onclick="addFee(@item.AddmissionNo)">@item.StudentName</a></td>
+                            <td>@item.Parent.FatherName</td>
+                            <td>@item.Class.ClassName</td>
+                            <td>@item.Sessions.SessionName</td>
+
+
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h3 class="text-center text-danger">No result found</h3>
+        }
+    }
+}
+
+
+	
+<div class="modal modal-right fade" id="feeModal" >
+    <div class="modal-dialog" style="height:200%; width:75%" >
+        <div class="modal-content info">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="close">&times;</a>
+                <div class="modal-title" id="title">
+                    <h4>Fee Record</h4>
+                </div>
+            </div>
+            <div class="modal-body" id="feeModalBody">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+@Scripts.Render("~/DataTableJs")
+<script>
+
+    $('#tbl').DataTable();
+    function addFee(id) {
+        $('#loader').show();   
+        var url = "/Fee/AddFee/" + id;
+        $('#feeModalBody').load(url, function () {
+            $('#feeModal').modal('show');
+            $('#loader').hide();   
+        })
+    }
+    function sibDis() {
+        var url = "/Fee/AddSibDiscount/";
+        $('#feeModalBody').load(url, function () {
+            $('#feeModal').modal('show');
+        })
+    }
+</script>
+
+
+

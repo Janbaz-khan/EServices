@@ -1,0 +1,173 @@
+﻿@model EServices.Models.Results.ExamResult
+
+@{
+    ViewBag.Title = "EditResult";
+    Layout = null;
+}
+<img src="~/AppFolder/GIF/giphy.gif" width="200" height="200" style="display:none" id="loader" />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+   
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ExamResultId)
+        @Html.HiddenFor(model => model.ExamTypeId)
+        @Html.HiddenFor(model => model.TotalMarks)
+        @Html.HiddenFor(model => model.ObtainedTotal)
+        @Html.HiddenFor(model => model.Percentage)
+        @Html.HiddenFor(model => model.Status)
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.ExamTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(a=>a.ExamTypeId, ViewBag.type as SelectList, "Select Exam Type", new { @class = "form-control", @required = true })
+                @Html.ValidationMessageFor(model => model.ExamTypeId, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.TotalMarks, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TotalMarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TotalMarks, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.WrittenMarks, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.WrittenMarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.WrittenMarks, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ConceptualMarks, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ConceptualMarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ConceptualMarks, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OralMarks, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OralMarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OralMarks, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.ObtainedTotal, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ObtainedTotal, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                @Html.ValidationMessageFor(model => model.ObtainedTotal, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Percentage, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Percentage, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                @Html.ValidationMessageFor(model => model.Percentage, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Update" class="btn btn-success" />
+                <input type="reset" value="Close" data-dismiss="modal" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+@*<script>
+
+</script>
+<script>
+    var ob = $('#ObtainedTotal');
+    var wr = $('#WrittenMarks');
+    var cm = $('#ConceptualMarks');
+    var orl = $('#OralMarks');
+    var perc = $('#Percentage');
+    var status = $('#Status');
+    var passingMarks = 0, fair = 0, good = 0, excellent = 0, outstanding = 0;
+    function GetGrade() {
+        $('#loader').show();
+        $.ajax({
+            type: 'GET',
+            url: '/Result/GetGrade/',
+            success: function (data) {
+                passingMarks = data.PassingMarks;
+                fair = data.Fair_Grade;
+                good = data.good_Grade;
+                excellent = data.Excellent_Grade;
+                outstanding = data.OutStanding_Grade;
+                $('#loader').hide();
+
+            }
+        })
+    }
+    GetGrade();
+    $('#WrittenMarks').keyup(function () {
+     
+        var TotalObtained = parseInt(wr.val()) + parseInt(cm.val()) + parseInt(orl.val());
+        ob.val(TotalObtained);
+        perc.val(Percentag(TotalObtained));
+        Checkstatus(perc.val());
+    });
+    $('#ConceptualMarks').keyup(function () {
+
+        var TotalObtained = parseInt(wr.val()) + parseInt(cm.val()) + parseInt(orl.val());
+        ob.val(TotalObtained);
+        perc.val(Percentag(TotalObtained));
+        Checkstatus(perc.val());
+    });
+    $('#OralMarks').keyup(function () {
+
+        var TotalObtained = parseInt(wr.val()) + parseInt(cm.val()) + parseInt(orl.val());
+        ob.val(TotalObtained);
+        perc.val(Percentag(TotalObtained));
+        Checkstatus(perc.val());
+    });
+
+    function Percentag(mrks) {
+        var total = $('#TotalMarks').val();
+        parseFloat(total);
+        var prnctg = (mrks / total) * 100;
+        return prnctg;
+    }
+    function Checkstatus(p) {
+        if (p < passingMarks) {
+            $(status).val("Fail");
+            $(status).css("color", "red");
+        }
+        else if (p >= passingMarks && p <= fair) {
+            $(status).val("Fair");
+            $(status).css("color", "gray");
+        } else if (p > fair && p <= good) {
+            $(status).val("Good");
+            $(status).css("color", "gray");
+        } else if (p > good && p <= excellent) {
+            $(status).val("Excellent");
+            $(status).css("color", "gray");
+        }
+        else if (p > excellent) {
+            $(status).val("Extra Ordinary");
+            $(status).css("color", "gray");
+        }
+    }
+</script>*@

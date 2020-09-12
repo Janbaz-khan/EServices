@@ -1,0 +1,115 @@
+﻿@model IEnumerable<EServices.Models.Staff.Staff>
+
+@{
+    ViewBag.Title = "Index";
+}
+@Styles.Render("~/DataTableCss")
+
+<ol class="breadcrumb">
+    <li><a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> Dashboard</a></li>
+    <li><a href="@Url.Action("Index","Staff")"><i class="fa fa-desktop"></i> Details</a></li>
+</ol>
+
+<hr />
+<p>
+    <a href="#" onclick="add()"class="btn btn-primary"><i class="fa fa-plus-circle"></i> Add New Employee</a>
+</p>
+<table class="table" id="tbl">
+    <thead>
+
+    <tr >
+        <th>
+            @Html.DisplayNameFor(model => model.EmpName)
+        </th>
+     
+        <th>
+            @Html.DisplayNameFor(model => model.HiringDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Education)
+        </th>
+     
+        <th>
+            @Html.DisplayNameFor(model => model.Designation)
+        </th>
+      
+       
+        
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@Url.Content(item.Image)" height="40" width="40" class="img-circle" /> <a href="#" onclick="details(@item.EmpId)">@Html.DisplayFor(modelItem => item.EmpName)</a>  
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.HiringDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Education)
+                </td>
+
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Designation)
+                </td>
+
+
+                <td>
+                    <a href="#" onclick="edit(@item.EmpId)" class="btn btn-xs btn-success"><i class="fa fa-pencil-alt"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<div class="modal modal-right fade" id="addEditModal" >
+    <div class="modal-dialog" style="height:200%; width:50%;" >
+        <div class="modal-content ">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="close">&times;</a>
+                <div class="modal-title" id="title">
+                    <h4>Add/Edit Record</h4>
+                </div>
+            </div>
+            <div class="modal-body" id="addModalBody">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+@Scripts.Render("~/DataTableJs")
+<script>
+    $('#tbl').DataTable();
+    function add() {
+        var url = "/Staff/AddEmployee/";
+        $('#addModalBody').load(url, function () {
+            $('#addEditModal').modal('show');
+        })
+       
+    }
+    function edit(EmpId) {
+        var url = "/Staff/EditEmployee/" + EmpId;
+        $('#addModalBody').load(url, function () {
+            $('#addEditModal').modal('show');
+        })
+    }
+    function details(EmpId) {
+        var url = "/Staff/Details/" + EmpId;
+        $('#addModalBody').load(url, function () {
+            $('#addEditModal').modal('show');
+        })
+    }
+
+</script>

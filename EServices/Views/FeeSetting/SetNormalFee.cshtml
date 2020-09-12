@@ -1,0 +1,93 @@
+﻿@model EServices.Models.Fee.NormalFee
+
+@{
+    ViewBag.Title = "Set Normal Fee";
+    Layout = null;
+}
+
+
+<form id="fee_Form">
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Normal Fee</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ClassId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.DropDownListFor(model => model.ClassId, ViewBag.classes as SelectList, "Select Class", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ClassId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AdmissionFee, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.AdmissionFee, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AdmissionFee, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MonthlyFee, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.MonthlyFee, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MonthlyFee, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PromotionFee, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.PromotionFee, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PromotionFee, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ExamFee, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.ExamFee, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ExamFee, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <input type="button" value="Submit" id="btnSubmit" class="btn btn-primary" />
+                <input type="button" value="Close" class="btn btn-default"  data-dismiss="modal"/>
+                <label id="msg"></label>
+                <img src="~/AppFolder/GIF/giphy.gif" width="70" height="70" id="loader2" style="display:none;" />
+
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+
+    $('#btnSubmit').click(function () {
+
+            var formData = $('#fee_Form').serialize();
+        if ($('#fee_Form').valid()) {
+
+            $('#loader2').show();
+            $.ajax({
+                type: "POST",
+                url: "/FeeSetting/SetNormalFee/",
+                data: formData,
+                success: function (response) {
+                    $('#msg').empty();
+                    $('#msg').append("<strong>" + response + "</strong");
+                    $('#loader2').hide();
+
+                }
+            })
+        }
+        
+    })
+</script>

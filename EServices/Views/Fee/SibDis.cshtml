@@ -1,0 +1,71 @@
+﻿@model IEnumerable<EServices.Models.Fee.SibDiscount>
+
+@{
+    ViewBag.Title = "SibDis";
+}
+
+
+<p>
+    <a href="#" onclick="sibDis()" class="btn btn-warning  ">Update Sib discount</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Sib2_Discount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sib3_Discount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sib4_Discount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Orphan_Discount)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sib2_Discount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sib3_Discount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sib4_Discount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Orphan_Discount)
+        </td>
+    
+    </tr>
+}
+
+</table>
+
+<div class="modal modal-open fade" id="feeModal" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content info">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="close">&times;</a>
+                <div class="modal-title" id="title">
+                    <h4>Fee Record</h4>
+                </div>
+            </div>
+            <div class="modal-body" id="feeModalBody">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script>
+    function sibDis() {
+        var url = "/Fee/AddSibDiscount/";
+        $('#feeModalBody').load(url, function () {
+            $('#feeModal').modal('show');
+        })
+    }
+</script>

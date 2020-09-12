@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewBag.Title = "ExamResult";
+    Layout = null;
+}
+
+<style>
+    .myChart2{
+        height:400px;
+    }
+</style>
+<div class="form-type-roundinput pull-right">
+    @using (Html.BeginForm("LoadExamChart","Chart",FormMethod.Post))
+    {
+        <div class="form-group col-sm-4">
+            @Html.DropDownList("Type", ViewBag.type as SelectList, "Select Exam Type", new { @class = "form-control", @required = true })
+        </div>
+        @*<div class="form-group">
+            @Html.DropDownList("Session", ViewBag.sessions as SelectList, "Select Session", new { @class = "form-control", @required = true })
+        </div>*@
+            <div class="form-group col-sm-4">
+                @Html.DropDownList("Class", ViewBag.classes as SelectList, "Select Class", new { @class = "form-control", @required = true })
+            </div>
+
+            <div class="form-group col-sm-4">
+                @Html.DropDownList("Section", ViewBag.sections as SelectList, "Select Section", new { @class = "form-control", @required = true })
+            </div>
+
+            <div class="form-group col-sm-4">
+                <input type="submit" value="load" class="btn btn-info" />
+            </div>
+    }
+</div>
+<div class="myChart2">
+<canvas id="myChart2"></canvas>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/Chart.js"></script>
+<script>
+    $.ajax({
+        type: 'GET',
+        url: '/Chart/ExamChart/',
+        success: function (data) {
+            var ms = [];
+            var ns = [];
+            $.each(data, function (index, value) {
+                ms.push(value.Marks);
+                ns.push(value.Name);
+            });
+            drawChart(ms, ns);
+        }
+    });
+  function  drawChart(obMarks, name){
+      var ctx = $('#myChart2');
+      var chart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: name,
+              datasets: [{
+                  label: 'Exam Result',
+                  data: obMarks,
+                  backgroundColor: [
+                      'rgba(255, 190, 118, 1.0)',
+                      'rgba(246, 229, 141, 1.0)',
+                      'rgba(253, 121, 168, 1.0)',
+                      'rgba(129, 236, 236, 1.0)',
+                      'rgba(85, 239, 196, 1.0) ',
+                      'rgba(253, 203, 110, 1.0)',
+                      'rgba(255, 234, 167, 1.0)',
+                      'rgba(225, 112, 85, 1.0) ',
+                      'rgba(129, 236, 236, 1.0)',
+                      'rgba(156, 136, 255, 1.0)',
+                      'rgba(127, 143, 166, 1.0)',
+                      'rgba(140, 122, 200, 1.0)',
+                      'rgba(132,165, 74, 0.6)',
+                      'rgba(149, 175, 192, 1.0)',
+                      'rgba(34, 166, 179, 1.0) ',
+                      'rgba(199, 236, 238, 1.0)',
+                      'rgba(186, 220, 88, 1.0) ',
+                      'rgba(240, 147, 43, 1.0) ',
+                      'rgba(0, 184, 148, 1.0) '
+                      ]
+
+          }]
+          },
+
+          options:{
+              maintainAspectRatio: false,
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero: true
+                      }
+                  }]
+              },
+              legend: {
+                  position: 'bottom',
+                  
+              }
+
+          }
+
+      });
+    }
+</script>

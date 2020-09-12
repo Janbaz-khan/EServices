@@ -1,0 +1,30 @@
+﻿@model IEnumerable<EServices.Models.Results.HomeWorkType>
+
+@{
+    ViewBag.Title = "HomeWork";
+}
+
+<h2>Home Work</h2>
+
+<p>
+<a href="@Url.Action("AddHomeWork","HomeWork")" onclick="add()" class="btn btn-info"><i class="fa fa-plus"></i> Add new</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.HomeWorkName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.HomeWorkName)
+        </td>
+        <td>
+        </td>
+    </tr>
+}
+
+</table>

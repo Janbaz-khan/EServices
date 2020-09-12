@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "Full Result";
+}
+@*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">*@
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css">
+@*@Styles.Render("~/DataTableCss")*@
+
+
+<h3 >Print Records</h3>
+<hr />
+<div class="form-type-roundinput">
+    @using (Html.BeginForm())
+    {
+        <div class="form-group col-sm-4">
+            @Html.DropDownList("Type", ViewBag.type as SelectList, "Select Exam Type", new { @class = "form-control", @required = true })
+        </div>
+            <div class="form-group col-sm-4">
+                @Html.DropDownList("Session", ViewBag.sessions as SelectList, "Select Session", new { @class = "form-control", @required = true })
+            </div>
+            <div class="form-group col-sm-4">
+                @Html.DropDownList("Class", ViewBag.classes as SelectList, "Select Class", new { @class = "form-control", @required = true })
+            </div>
+
+            <div class="form-group col-sm-4">
+                @Html.DropDownList("Section", ViewBag.sections as SelectList, "Select Section", new { @class = "form-control", @required = true })
+            </div>
+          
+            <div class="form-group col-sm-4">
+                <input type="submit" value="load" class="btn btn-info" />
+            </div>
+    }
+</div>
+<hr />
+
+@if (ViewBag.list!=null)
+{
+    <table class="table table-condensed" id="tbl">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Total Marks</th>
+                <th>Obtained Marks</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.list as IEnumerable<EServices.CustomClasses.FullExamVM>)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.TotalMarks</td>
+                    <td>@item.ObtainedMarks</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+  
+}
+else {
+<h5>Data not yet loaded </h5>
+}
+
+@*<script src="~/Scripts/jquery-3.4.1.min.js"></script>*@
+@*@Scripts.Render("~/DataTableJs")*@
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.24/build/vfs_fonts.js"></script>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.24/build/pdfmake.min.js"></script>
+
+
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.colVis.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.flash.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
+
+
+<script>
+    $('#tbl').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'excel', 'print', 'colvis'
+        ]
+    });
+    $("a").click(function () {
+        $('div').removeClass('loadin');
+        $('.h').hide();
+        $('.spin').hide();
+    });
+
+</script>

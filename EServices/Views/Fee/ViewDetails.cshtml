@@ -1,0 +1,343 @@
+﻿
+@{
+    ViewBag.Title = "ViewDetails";
+    //Layout = null;
+}
+@*@Styles.Render("~/DataTableCss")*@
+
+@*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">*@
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css">
+
+<ol class="breadcrumb">
+    <li><a href="@Url.Action("LoadAllStudentInClass","Fee")" id="frst"><i class="fa fa fa-file-archive"></i> Add Fee</a></li>
+    <li><a id="lst" href="@Url.Action("ViewDetails","Fee")"><i class="fa fa-file-alt"></i> View Details</a></li>
+
+</ol>
+<hr />
+
+<h3>Monthly details</h3>  <span><img src="~/AppFolder/GIF/giphy.gif" id="loader" style="display:none;width:200px;height:200px;" /></span>
+
+<hr />
+
+@if (User.IsInRole("Teacher"))
+{
+    <div class="form-type-roundinput">
+        @using (Html.BeginForm())
+        {
+            <div class="form-group col-sm-4">
+
+                @Html.DropDownList("Session", ViewBag.Sessions as SelectList, "Select Session", new { @class = "form-control", @required = "true" })
+
+            </div>
+            <div class="form-group col-sm-4">
+
+                @Html.DropDownList("Class", ViewBag.Classes as SelectList, "Select Class", new { @class = "form-control", @id = "classId", @required = "true" })
+
+            </div>
+            <div class="form-group col-sm-4">
+                @Html.DropDownList("Section", ViewBag.sections as SelectList, "Select Section", new { @class = "form-control", @id = "classId", @required = "true" })
+            </div>
+            <div class="form-group col-sm-4">
+
+                @Html.DropDownList("Month", ViewBag.Month as SelectList, "Select Month", new { @class = "form-control", @required = "true" })
+
+            </div>
+            <div class="form-group col-sm-4">
+                <input type="submit" value="Filter"   name="" class="btn btn-info" />
+            </div>
+
+        }
+    </div>
+}
+else
+{
+    <div class="form-type-roundinput">
+        @using (Html.BeginForm())
+        {
+            <div class="form-group col-sm-4">
+
+                @Html.DropDownList("Session", ViewBag.Sessions as SelectList, "Select Session", new { @class = "form-control", @required = "true" })
+
+            </div>
+            <div class="form-group col-sm-4">
+
+                @Html.DropDownList("Class", ViewBag.Classes as SelectList, "Select Class", new { @class = "form-control", @required = "true" })
+
+            </div>
+            <div class="form-group col-sm-4">
+                @Html.DropDownList("Section", ViewBag.sections as SelectList, "Select Section", new { @class = "form-control", @required = true })
+            </div>
+            <div class="form-group col-sm-4">
+
+                @Html.DropDownList("Month", ViewBag.Month as SelectList, "Select Month", new { @class = "form-control", @required = "true" })
+
+            </div>
+            <div class="form-group col-sm-4">
+                <input type="submit" value="Filter" name="" class="btn btn-info" />
+            </div>
+
+        }
+    </div>
+}
+  
+    <hr />
+@if (ViewBag.list!=null)
+{
+
+    <table class="table" id="tbl">
+        <thead>
+        <tr>
+            <th>
+              Name
+            </th>
+            <th>
+                Current Class
+            </th>
+            <th>
+                Class
+            </th>
+            <th>
+                Session
+            </th>
+            <th>
+               Net Total
+            </th>
+            <th>
+               Paid
+            </th>
+            <th>
+                Carry Forward
+            </th>
+            <th>
+                Month
+            </th>
+            <th>
+                Date
+            </th>
+
+            <th></th>
+        </tr>
+            </thead>
+        <tbody>
+
+        @foreach (var item in ViewBag.list as IEnumerable<EServices.Models.Fee.FeePayment>)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Students.StudentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(a=>item.Students.Class.ClassName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Classes.ClassName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sessions.SessionName)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.NetTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Paid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CarryForward)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Months.MonthName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+
+                <td>
+                    
+                    @if (item.Paid>0)
+                    {
+                    <a href="#" onclick="pay(@item.FeePaymentId)" class="btn btn-xs btn-default disabled">Pay amount</a><span>|</span>
+                    <a href="#" onclick="sendReminder(@item.FeePaymentId,@item.CarryForward)" class="btn btn-xs btn-primary">Reminder</a><span>|</span>
+
+                    }
+                    else
+                    {
+                        <a href="#" onclick="pay(@item.FeePaymentId)" class="btn btn-xs btn-success">Pay amount</a><span>|</span>
+                        <a href="#" onclick="confirmDelete(@item.FeePaymentId)" class="btn btn-xs btn-danger">Delete</a><span>|</span>
+                        <a href="#" onclick="sendReminder(@item.FeePaymentId,@item.CarryForward)" class="btn btn-xs btn-primary">Reminder</a><span>|</span>
+
+                    }
+                    <a href="#" onclick="details(@item.FeePaymentId)" class="btn btn-xs btn-warning">Print</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+
+    </table>
+}
+else
+{
+        <h4>No data found</h4>
+}
+<input type="hidden" id="hv" />
+<div class="modal modal-open fade" id="feeModal" data-backdrop="static" >
+    <div class="modal-dialog" style="width:90%;">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="close">&times;</a>
+                <div class="modal-title" id="title">
+                    <h4>Fee Record</h4>
+                </div>
+            </div>
+            <div class="modal-body" id="feeModalBody">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal modal-open fade" id="sendModal" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="close">&times;</a>
+                <div class="modal-title" id="title">
+                    <h4>Message will be send to parent along with fee Detail</h4>
+                </div>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <form id="sendForm">
+                    <div class="form-group">
+                        @Html.TextArea("Message", new { @class = "form-control", @required = "true",@Placeholder="Just type only a message you want to send,fee will autometically attached." })
+                    </div>
+                    <div class="form-group">
+                        <input type="button" class="btn btn-info" value="Send" id="smsBtn" />
+                        <input type="button" class="btn btn-default" value="Cancel" data-dismiss="modal" />
+                        <label id="msgsms"></label>
+                        <span><img src="~/AppFolder/GIF/giphy.gif" id="loader1" style="display:none;width:100px;height:100px;" /></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal modal-danger fade" id="confirmModal" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="close">&times;</a>
+                <div class="modal-title" id="title">
+                </div>
+            </div>
+            <div class="modal-body" id="feeModalBody">
+               <h4>Are you sure you want to delete this record?</h4> 
+
+            </div>
+            <div class="modal-footer">
+                <img src="~/AppFolder/GIF/giphy.gif" id="loaderSmall" style="display:none;width:50px;height:50px;" />
+                <button class="btn btn-warning" onclick="deleteThis()">Yes</button>
+                <button class="btn btn-default" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*<script src="~/Scripts/jquery-3.4.1.min.js"></script>*@
+@*@Scripts.Render("~/DataTableJs")*@
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.24/build/vfs_fonts.js"></script>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.24/build/pdfmake.min.js"></script>
+
+
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.colVis.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.flash.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
+
+<script>
+    var feeid = 0,carry=0;
+    $('#tbl').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'excel', 'print', 'colvis'
+        ]
+    });
+    function sendReminder(FeePaymentId, CarryForward) {
+        feeid = FeePaymentId;
+        carry = CarryForward;
+        $('#sendModal').modal('show');
+        $('#msgsms').empty();
+        var smsMsg = "Assalam O Alaikum, Please pay your kid fee on time,otherwise fine will be added to your kid fee. Thanks";
+        var message = $('#sendForm #Message').val(smsMsg);
+    }
+    $('#smsBtn').click(function () {
+        var loader = $('#loader1');
+        var message = $('#sendForm #Message').val();
+        var fullMessage = message + ". Fee you did not pay yet is " + carry + " with arrears";
+        if (message != "") {
+            loader.show();
+            $.ajax({
+                type: 'GET',
+                url: '/SendSMS/ReminserFeeSMS/',
+                data: { Message: fullMessage, Id:feeid },
+                success: function (response) {
+                    $('#msgsms').html(response)
+                    loader.hide();
+                }
+            })
+        }
+        else {
+            alert("field can't be empty");
+        }
+
+    })
+    function details(FeePaymentId) {
+        $('#loader').show();   
+
+        $('.modal-dialog').css("width", "80%");
+        var url = "/Fee/PrintDetail/" + FeePaymentId;
+        $('#feeModalBody').load(url, function () {
+            $('#feeModal').modal('show');
+            $('#loader').hide();   
+
+        })
+    }
+    function pay(FeePaymentId) {
+        $('#loader').show();   
+
+        $('.modal-dialog').width(500);
+        var url = "/Fee/GetPaymentRecord/" + FeePaymentId;
+        $('#feeModalBody').load(url, function () {
+            $('#feeModal').modal('show');
+            $('#loader').hide(); 
+        })
+    }
+    function confirmDelete(FeePaymentId) {
+        var value = FeePaymentId;
+        $('#hv').val(value);
+        $('#confirmModal').modal('show');
+    }
+    function deleteThis() {
+        $('#msgDelete').append(" ");
+        $('#loaderSmall').show();
+        var id = $('#hv').val();
+        var url = "/Fee/DeleteFee/" + id;
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function (response) {
+                alert(response);
+                $('#loaderSmall').hide();
+                $('#confirmModal').modal('hide');
+
+            }
+        })
+    }
+</script>

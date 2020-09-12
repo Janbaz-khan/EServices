@@ -1,0 +1,123 @@
+﻿
+
+@model List<EServices.Models.Attendance.TeacherAttendance>
+@{
+    ViewBag.Title = "Index";
+}
+@*@Styles.Render("~/DataTableCss")*@
+
+<ol class="breadcrumb">
+    <li><i class="fa fa-user-circle"></i><a href="@Url.Action("TeacherAttendace","Attendance")">Teacher Attendance</a></li>
+    <li><i class="fa fa-pagelines"></i><a href="@Url.Action("TeacherDetail","Attendance")">Teacher Details</a></li>
+</ol>
+<h4>Attendance </h4>
+
+@if (ViewBag.list == null)
+{
+   <div class="alert alert-danger">Data not found</div>
+}
+else
+{
+
+    <form id="form2">
+        <hr />
+        @if (ViewBag.list != null)
+        {
+            int i = 0;
+            var lis = ViewBag.list as IEnumerable<EServices.Models.Staff.Staff>;
+            if (lis.Count() > 0)
+            {
+
+                <table class="table table-condensed" id="tbl">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Desgination</th>
+                            <th>Status</th>
+                            <th>@Html.CheckBox("checkBox", new { @id = "checkAll" }) SMS</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in ViewBag.list as IEnumerable<EServices.Models.Staff.Staff>)
+                        {
+
+                            <tr>
+                                @Html.HiddenFor(a => a[i].TeacherId, new { @Value = item.EmpId})
+                                @Html.HiddenFor(a => a[i].SessionId, new { @Value = ViewBag.sessionId })
+                                <td><img src="@Url.Content(item.Image)" height="40" width="40" class="img-circle" />  @item.EmpName</td>
+                                <td>@item.Designation</td>
+                                <td>
+                                    @Html.DropDownListFor(a => a[i].Status, new[] {
+                                                                      new SelectListItem(){Text="Present"}
+                                                                     ,new SelectListItem(){Text="Absent" }
+                                                                     ,new SelectListItem(){Text="Leave" } }, new { @class = "form-control" })
+                                </td>
+                                <td>
+                                    @Html.CheckBoxFor(a => a[i].SMS_Status, new { @class = "checkBox1" })
+                                </td>
+                            </tr>
+                            i++;
+                        }
+
+                    </tbody>
+                </table>
+                <center>
+                    <button type="button" class="btn btn-primary" id="btnSubmit">Submit</button>
+                    <label id="msg" style="display:none;"></label>
+                    <img src="~/AppFolder/GIF/giphy.gif" width="100" height="100" id="loader" style="display:none;" />
+                </center>
+            }
+            else
+            {
+                <h3 class="text-center text-danger">No result found</h3>
+            }
+        }
+
+    </form>
+}
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+@*@Scripts.Render("~/DataTableJs")*@
+
+
+<script>
+
+    $('#checkAll').click(function () {
+        $('input:checkbox').prop('checked', this.checked);
+    });
+    //$('#tbl').DataTable();
+    $('#btnSubmit').click(function () {
+        var msg = $('#msg');
+        $('#loader').show();
+        var form = $('#form2').serialize();
+        $.ajax({
+            type: 'POST',
+            url: '/Attendance/SubmitTeacherAttendance/',
+            data: form,
+            success: function (response) {
+                msg.empty();
+                msg.show();
+                if (response == "success") {
+                    msg.removeClass("text-danger");
+                    msg.addClass("text-info");
+                    msg.append("Submited successfully...");
+                }
+
+                else {
+                    msg.removeClass("text-info");
+                    msg.addClass("text-danger");
+                    msg.append("today attendance already submited...");
+                }
+                $('#btnSubmit').prop("disabled", true);
+                $('#btnSubmit').removeClass("btn-primary");
+                $('#btnSubmit').addClass("btn-info");
+                $('#loader').hide();
+            },
+
+        })
+    })
+</script>
+
+
+

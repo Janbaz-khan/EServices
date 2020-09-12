@@ -1,0 +1,61 @@
+﻿@model EServices.Models.Attendace.Attendance
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = null;
+}
+
+<link href="~/Content/checkbox.css" rel="stylesheet" />
+
+<h3><img src="@Url.Content(Model.Students.Image)" width="70" height="70" class="img-circle" /> @Model.Students.StudentName</h3>
+<from id="formData">
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+     
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Attendace_Id)
+
+
+      
+       
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    <div>
+                        @Html.DropDownListFor(a =>a.Status, new[] {
+                                                                      new SelectListItem(){Text="Present"}
+                                                                     ,new SelectListItem(){Text="Absent" }
+                                                                     ,new SelectListItem(){Text="Leave" } }, new { @class = "form-control" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" id="btnSubmit"  value="Update" class="btn btn-sm btn-info" />
+                <input type="reset" value="Close" data-dismiss="modal" class="btn btn-sm btn-default" />
+            </div>
+        </div>
+    </div>
+</from>
+
+
+<script>
+    $('#btnSubmit').click(function () {
+        var attId = $('#Attendace_Id').val()
+        var status=$('#Status').val()
+        $.ajax({
+            type: 'POST',
+            url: '/Attendance/Edit/',
+            data: { id: attId, status: status },
+            success: function (response) {
+                window.location.reload()
+            }
+        })
+    })
+</script>

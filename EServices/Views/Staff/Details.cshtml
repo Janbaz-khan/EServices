@@ -1,0 +1,94 @@
+﻿@model EServices.Models.Staff.Staff
+
+@{
+    ViewBag.Title = "Details";
+    Layout = null;
+}
+
+
+
+<div class="row">
+
+
+
+    <div class="col-md-4">
+        <h2><img src="@Url.Content(Model.Image)" wih4h="150" height="150" class="img-circle" /> @Html.DisplayFor(model => model.EmpName)</h2>
+
+    </div>
+    <div class="col-md-4">
+
+        <h4>
+            <strong>Father Name</strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.FatherName)
+        </h4>
+
+        <h4>
+            <strong>Education</strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.Education)
+        </h4>
+        <h4>
+            <strong>Phone</strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.PhoneNo)
+        </h4>
+
+        <h4>
+            <strong>Gender</strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.gender.GenderName)
+        </h4>
+        <h4>
+            <strong>Hiring Date</strong>
+        </h4>
+        <h4>
+            @Html.DisplayFor(model => model.HiringDate)
+        </h4>
+    </div>
+    <div class="col-md-4">
+
+        <h4>
+            <strong>Address</strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.Address)
+        </h4>
+
+        <h4>
+            <strong>Designation</strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.Designation)
+        </h4>
+
+        <h4>
+            <strong>Basic Salary</strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.BasicSalary)
+        </h4><h4>
+            <strong>CNIC</strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.CNIC)
+        </h4>
+
+
+        
+
+    </div>
+
+</div>

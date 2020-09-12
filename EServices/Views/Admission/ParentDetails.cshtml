@@ -1,0 +1,62 @@
+﻿@model EServices.Models.Parent
+
+@{
+    ViewBag.Title = "StudentDetails";
+    Layout = null;
+}
+
+<div class="row">
+    
+    <div class="col-md-6">
+
+
+
+
+        <br />
+       
+
+        <h1>
+            @Html.DisplayFor(a=>a.FatherName)
+        </h1><br />
+        <h4>
+            <strong> CNIC:</strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.CNIC)
+        </h4>
+        <br>
+        <h4>
+            <strong>Postel Address</strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.PostelAddress)
+        </h4><br />
+        <h4>
+            <strong>Phone No </strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.PhoneNo)
+        </h4>
+        <br>
+        <h4>
+            <strong>Emeergancy No: </strong>
+        </h4>
+
+        <h4>
+            @Html.DisplayFor(model => model.EmergancyNo)
+        </h4><br />
+
+        
+        <br>
+
+
+    </div>
+    <div class="col-md-6">
+
+    </div>
+
+    </div>
+

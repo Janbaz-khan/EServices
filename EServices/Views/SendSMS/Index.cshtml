@@ -1,0 +1,416 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<style>
+  
+
+    .box {
+        width: 280px;
+        height: 120px;
+        padding: 40px;
+        margin: 5px;
+        color: white;
+        cursor:pointer;
+    }
+        .box:hover {
+            -webkit-box-shadow: 1px 1px 5px 2px rgba(160, 158, 158, 0.88);
+            box-shadow: 1px 1px 5px 2px rgba(160, 158, 158, 0.88);
+            transition: .3s;
+        }
+    .box-p {
+      
+        background-image: radial-gradient( circle 952px at -0.3% 47.9%, rgba(112,113,252,0.58) 0%, rgba(254,141,199,0.61) 100.2% );
+       
+    }
+    .box-g {
+        background: linear-gradient(to right, rgba(190,208,149,1) 0%, rgba(190,208,149,0.81) 23%, rgba(172,201,108,0.65) 43%, rgba(133,184,15,0.65) 88%);
+    }
+</style>
+
+<h3>Send SMS to everyone</h3><span class="btn btn-sm btn-default" id="refresh">Refresh Page</span><hr />
+<div class="row">
+
+        <div class="col-md-4">
+            <div class="box box-p" onclick="clickFun('All')">
+                <h4>Send to All</h4>
+            </div>
+        </div>
+     
+        <div class="col-md-4">
+            <div class="box box-p" onclick="clickFun('sAll')">
+                <h4>Send to All Student</h4>
+            </div>
+        </div>
+        <div class="col-md-4 ">
+            <div class="box box-p" onclick="clickFun('sC')">
+                <h4>Send Classwise</h4>
+            </div>
+        </div>
+      
+   
+</div>
+<div class="row">
+        <div class="col-md-4">
+            <div class="box box-g" onclick="clickFun('tAll')">
+                <h4>Send to all teachers</h4>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="box box-g" onclick="clickFun('tI')">
+                <h4>Send to individual teacher</h4>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="box box-g" onclick="clickFun('sI')">
+                <h4>Send to individual student</h4>
+            </div>
+        </div>
+
+</div>
+
+
+<div class="modal modal-open fade" id="sendModalAll" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="close">&times;</a>
+                <div class="modal-title" id="title">
+                    <h4>Message will be send to All Parents &amp; Teachers</h4>
+                </div>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <form id="allForm">
+                    <div class="form-group">
+                        @Html.TextArea("Message", new { @class = "form-control", @required = "true" })
+                    </div>
+                    <div class="form-group">
+                        <input type="button" class="btn btn-info" value="Send" id="allBtn" />
+                        <input type="button" class="btn btn-default" value="Cancel" data-dismiss="modal" />
+                        <label id="msgSC"></label>
+                        <span><img src="~/AppFolder/GIF/giphy.gif" id="loader" style="display:none;width:100px;height:100px;" /></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal modal-open fade" id="sendModalSC" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="close">&times;</a>
+                <div class="modal-title" id="title">
+                    <h4>Message will be send to each kid's Parent related to selected class</h4>
+                </div>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <form id="FormSC" >
+                    <div class="form-group">
+                        @Html.DropDownList("Class", ViewBag.classes as SelectList, "Select Class", new { @class = "form-control", @required = "true" })
+                        </div>
+                    <div class="form-group">
+                        @Html.DropDownList("Section", ViewBag.sections as SelectList, "Select Section", new { @class = "form-control", @required = "true" })
+                    </div>
+                    <div class="form-group">
+                        @Html.TextArea("Message", new { @class = "form-control", @required = "true" })
+                    </div>
+                    <div class="form-group">
+                        <input type="button" class="btn btn-info" value="Send" id="SCBtn" />
+                    <input type="button" class="btn btn-default" value="Cancel" data-dismiss="modal"/>    
+                        <label id="msgSC"></label>
+                    <span><img src="~/AppFolder/GIF/giphy.gif" id="loaderSC" style="display:none;width:100px;height:100px;" /></span>
+       </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal modal-open fade" id="sendModalAllT" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="close">&times;</a>
+                <div class="modal-title" id="title">
+                    <h4>Message will be send to All Teachers</h4>
+                </div>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <form id="allTForm">
+
+                    <div class="form-group">
+                        @Html.TextArea("Message", new { @class = "form-control", @required = "true" })
+                    </div>
+                    <div class="form-group">
+                        <input type="button" class="btn btn-info" value="Send" id="allTBtn" />
+                        <input type="button" class="btn btn-default" value="Cancel" data-dismiss="modal" />
+                        <label id="msgSC"></label>
+                        <span><img src="~/AppFolder/GIF/giphy.gif" id="loaderAT" style="display:none;width:100px;height:100px;" /></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal modal-open fade" id="sendModalAllS" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="close">&times;</a>
+                <div class="modal-title" id="title">
+                    <h4>Message will be send to All Parents</h4>
+                </div>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <form id="allSForm">
+
+                    <div class="form-group">
+                        @Html.TextArea("Message", new { @class = "form-control", @required = "true" })
+                    </div>
+                    <div class="form-group">
+                        <input type="button" class="btn btn-info" value="Send" id="allSBtn" />
+                        <input type="button" class="btn btn-default" value="Cancel" data-dismiss="modal" />
+                        <label id="msgSC"></label>
+                        <span><img src="~/AppFolder/GIF/giphy.gif" id="loaderAS" style="display:none;width:100px;height:100px;" /></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal modal-open fade" id="sendModalIT" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="close">&times;</a>
+                <div class="modal-title" id="title">
+                    <h4>Message will be send to selected Teacher</h4>
+                </div>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <form id="ITForm">
+                    <div class="form-group">
+                        @Html.DropDownList("Teacher", ViewBag.teachers as SelectList, "Select Teacher", new { @class = "form-control", @required = "true" })
+                    </div>
+                    <div class="form-group">
+                        @Html.TextArea("Message", new { @class = "form-control", @required = "true" })
+                    </div>
+                    <div class="form-group">
+                        <input type="button" class="btn btn-info" value="Send" id="ITBtn" />
+                        <input type="button" class="btn btn-default" value="Cancel" data-dismiss="modal" />
+                        <label id="msgSC"></label>
+                        <span><img src="~/AppFolder/GIF/giphy.gif" id="loaderIT" style="display:none;width:100px;height:100px;" /></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal modal-open fade" id="sendModalIS" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="close">&times;</a>
+                <div class="modal-title" id="title">
+                    <h4>Message will be send to selected Parent</h4>
+                </div>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <form id="ISForm">
+                    <div class="form-group">
+                        @Html.DropDownList("Class", ViewBag.classes as SelectList, "Select Class", new { @class = "form-control", @required = "true" })
+                    </div>
+                    <div class="form-group">
+                        @Html.DropDownList("Section", ViewBag.sections as SelectList, "Select Section", new { @class = "form-control", @required = "true" })
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" id="AdmissionNo" name="AdmissionNo" required>
+                            <option selected style="display:none;" disabled value="">Select Student</option>
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        @Html.TextArea("Message", new { @class = "form-control", @required = "true" })
+                    </div>
+                    <div class="form-group">
+                        <input type="button" class="btn btn-info" value="Send" id="ISBtn" />
+                        <input type="button" class="btn btn-default" value="Cancel" data-dismiss="modal" />
+                        <label id="msgSC"></label>
+                        <span><img src="~/AppFolder/GIF/giphy.gif" id="loaderIS" style="display:none;width:100px;height:100px;" /></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $('#ISForm #Section').change(function () {
+        $('#ISForm #AdmissionNo').empty();
+        $('#ISForm #AdmissionNo').append("<option selected disabled>Select Student</option>")
+        $('#loaderIS').show();
+        var sec = $(this).val();
+        var cls = $('#ISForm #Class').val();
+        $.ajax({
+            type: 'GET',
+            url: '/SendSMS/GetStudents/',
+            data: { Class: cls, Section: sec },
+            success: function (response) {
+                $.each(response, function (index, value) {
+                    $('#ISForm #AdmissionNo').append("<option value='" + value.Id + "'>" + value.Name + "</option>");
+                    $('#loaderIS').hide();
+                });
+            }
+        })
+    })
+    var loader = $('#loader');
+    $('#allBtn').click(function () {
+        var message = $('#allForm #Message').val();
+        if (message!="") {
+            loader.show();
+            $.ajax({
+                type: 'GET',
+                url: '/SendSMS/SendToAll/',
+                data: { Message: message },
+                success: function (response) {
+                    alert(response);
+                    loader.hide();
+                }
+            })
+        }
+        else {
+            alert("field can't be empty");
+        }
+      
+    });
+    $('#SCBtn').click(function () {
+        var loader = $('#loaderSC');
+        var message = $('#FormSC #Message').val();
+        var Class = $('#FormSC #Class').val();
+        var section = $('#FormSC #Section').val();
+        if (message != "" && Class != "" && section != "") {
+            loader.show();
+            $.ajax({
+                type: 'GET',
+                url: '/SendSMS/SendToStudent/',
+                data: { Message: message, Class: Class, Section: section, AdmissionNo: 0 },
+                success: function (response) {
+                    alert(response);
+                    loader.hide();
+                }
+            })
+        }
+        else {
+            alert("field can't be empty");
+        }
+        
+    })
+    $('#allTBtn').click(function () {
+        var loader = $('#loaderAT');
+        var message = $('#allTForm #Message').val();
+        if (message != "") {
+            loader.show();
+            $.ajax({
+                type: 'GET',
+                url: '/SendSMS/SendToTeacher/',
+                data: { Message: message, TeacherId: 0 },
+                success: function (response) {
+                    alert(response);
+                    loader.hide();
+                }
+            })
+        }
+        else {
+            alert("field can't be empty");
+        }
+      
+
+    })
+    $('#allSBtn').click(function () {
+        var message = $('#allSForm #Message').val();
+        var loader = $('#loaderAS');
+        if (message != "") {
+            loader.show();
+            $.ajax({
+                type: 'GET',
+                url: '/SendSMS/SendToStudent/',
+                data: { Message: message,Class:0,Section:0,AdmissionNo:0 },
+                success: function (response) {
+                    alert(response);
+                    loader.hide();
+                }
+            })
+        }
+        else {
+            alert("field can't be empty");
+        }
+
+    })
+    $('#ITBtn').click(function () {
+        var loader = $('#loaderIT');
+        var message = $('#ITForm #Message').val();
+        var teacherId = $('#ITForm #Teacher').val();
+        if (message != "" && teacherId!="") {
+            loader.show();
+            $.ajax({
+                type: 'GET',
+                url: '/SendSMS/SendToTeacher/',
+                data: { Message: message, TeacherId: teacherId },
+                success: function (response) {
+                    alert(response);
+                    loader.hide();
+                }
+            })
+        }
+        else {
+            alert("field can't be empty");
+        }
+    })
+    $('#ISBtn').click(function () {
+        var loader = $('#loaderIS');
+        var message = $('#ISForm #Message').val();
+        var Cls = $('#ISForm #Class').val();
+        var sec = $('#ISForm #Section').val();
+        var studentId = $('#ISForm #AdmissionNo').val();
+        if (message != "" && studentId != "") {
+            loader.show();
+            $.ajax({
+                type: 'GET',
+                url: '/SendSMS/SendToStudent/',
+                data: { Message: message, Class: Cls, Section: sec, AdmissionNo: studentId },
+                success: function (response) {
+                    alert(response);
+                    loader.hide();
+                }
+            })
+        }
+        else {
+            alert("field can't be empty");
+        }
+        
+    })
+    $('#refresh').click(function () {
+        window.location.reload();
+    })
+
+
+    function clickFun(value) {
+        if (value == "tI") {
+            $('#sendModalIT').modal('show');
+        }
+        else if (value == "All") {
+            $('#sendModalAll').modal('show')
+        }
+        else if (value == "tAll") {
+            $('#sendModalAllT').modal('show');
+        }
+        else if (value == "sAll") {
+            $('#sendModalAllS').modal('show');
+        }
+        else if (value == "sI") {
+            $('#sendModalIS').modal('show');
+        }
+        else if (value == "sC") {
+            $('#sendModalSC').modal('show');
+        }
+    }
+</script>

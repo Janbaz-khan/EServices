@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Menu";
+    Layout = null;
+}
+
+<ol class="breadcrumb">
+    <li><a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> Dashboard</a></li>
+    <li><a href="@Url.Action("Index","Admission")"><i class="fa fa-user"></i> Student Admission</a></li>
+    <li><a href="@Url.Action("ViewClasses","Admission")"><i class="fa fa-cogs"></i> Class</a></li>
+    <li><a href="@Url.Action("ViewSections","Admission")"><i class="fa fa-cogs"></i> Sections</a></li>
+    <li><a href="@Url.Action("ViewSessions","Admission")"> <i class="fa fa-cogs"></i> Sessions</a></li>
+    <li><a href="@Url.Action("ViewSubjects","TeacherMapping")"><i class="fa fa-cogs"></i> Subjects</a></li>
+
+</ol>

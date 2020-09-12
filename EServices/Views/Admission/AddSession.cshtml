@@ -1,0 +1,55 @@
+﻿@model EServices.Models.Session
+
+@{
+    ViewBag.Title = "AddSession";
+  Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Session", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SessionName, new { htmlAttributes = new { @class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.SessionName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button class="btn btn-primary" type="submit" id="btnAdd">Add Session</button>
+                <button class="btn btn-warning" type="reset" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+}
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    //$('#btnAdd').click(function () {
+    //    var txt = $('#txt');
+    //    if (txt == "") {
+    //        alert("Session Required");
+    //    }
+    //    else {
+    //        var url = "/Admission/AddSession";
+    //        var data = $('#sessionData').serialize();
+
+    //        insertIn(url, data);
+    //        $('addEditModal').modal('hide');
+    //        window.location.reload();
+
+    //    }
+     
+    //})
+</script>
+
+

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<EServices.Models.Subject.Subject>
+
+@{
+    ViewBag.Title = "ViewSubjects";
+}
+@Html.Action("Menu","TeacherMapping")
+<h5>Subjects</h5>
+
+<p>
+   <a href="#" onclick="add()" class="btn btn-primary"><i class="fa fa-plus"></i> Add New</a>
+</p>
+<table class="table">
+    <tr style="background-color:ActiveCaption">
+        <th>
+           Subject Name
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubjectName)
+        </td>
+        <td>
+           <a href="#" onclick="edit(@item.SubjectId)" class="btn btn-xs btn-success"><i class="fa fa-pencil-alt"></i></a>
+        </td>
+    </tr>
+}
+
+</table>
+<div class="modal modal-right fade" id="addEdit" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog dModal">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="close">&times;</a>
+                <div class="modal-title">
+                    <h4> Add/Edit Record</h4>
+                </div>
+            </div>
+            <div class="modal-body" id="Body">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    function add() {
+        var url = "/TeacherMapping/AddSubject/";
+        $('#Body').load(url, function () {
+            $('#addEdit').modal('show');
+        })
+    }
+    function edit(subjectId) {
+        var url = "/TeacherMapping/EditSubject/" + subjectId;
+        $('#Body').load(url, function () {
+            $('#addEdit').modal('show');
+        })
+    }
+</script>

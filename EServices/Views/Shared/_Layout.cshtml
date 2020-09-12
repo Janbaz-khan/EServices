@@ -1,0 +1,163 @@
+﻿@using System.Web.Optimization;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>@ViewBag.title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="~/VoiceX/VImage/favicon.ico">
+    <title>E-Services</title>
+
+    <!-- Bootstrap 4.0-->
+    <link rel="stylesheet" href="~/VoiceX/bootstrap/dist/css/bootstrap.css">
+
+
+
+    <!-- toast CSS -->
+    <link href="~/VoiceX/jquery-toast-plugin-master/src/jquery.toast.css" rel="stylesheet">
+    <link href="~/VoiceX/animate/animate.css" rel="stylesheet">
+
+    <!-- theme style -->
+    <link rel="stylesheet" href="~/VoiceX/css/style.css">
+
+    <!-- VoiceX Admin skins -->
+    <link rel="stylesheet" href="~/VoiceX/css/skin_color.css">
+    <link href="~/Content/checkbox.css" rel="stylesheet" />
+    <link href="~/Content/css/font awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link href="~/Content/Loader/style1.css" rel="stylesheet" />
+
+</head>
+<body class="hold-transition light-skin sidebar-mini theme-botani onlyheader">
+    <div class="loadin">
+        @*<h1 class="h">Please Wait...</h1>*@
+        <div class="lds-ripple"><div></div><div></div></div>
+    </div>
+    <div class="wrapper">
+
+      @Html.Action("Header", "LayoutSetting")
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <div class="container-full clearfix position-relative">
+
+                <!-- Left side column. contains the logo and sidebar -->
+              @Html.Action("SideBar", "LayoutSetting")
+
+               
+                <!-- Main content -->
+                <section class="content">
+                    @RenderBody()
+                   </section>
+                <!-- /.content -->
+            </div>
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="pull-right d-none d-sm-inline-block">
+                <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end"></ul>
+            </div>
+            &copy; @DateTime.Now.Year <a href="#">E-Services</a>. All Rights Reserved.
+        </footer>
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar">
+
+            <div class="rpanel-title"><span class="pull-right btn btn-circle btn-danger"><i class="ion ion-close text-white" data-toggle="control-sidebar"></i></span> </div>  <!-- Create the tabs -->
+            <ul class="nav nav-tabs control-sidebar-tabs">
+                <li class="nav-item"><a href="#control-sidebar-home-tab" data-toggle="tab" title="Notifications"><i class="ti-comment-alt"></i></a></li>
+
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <!-- Home tab content -->
+                <div class="tab-pane" id="control-sidebar-home-tab">
+                    <div class="lookup lookup-sm lookup-right d-none d-lg-block mb-20">
+                        <input type="text" name="s" placeholder="Search" class="w-p100">
+                    </div>
+
+                </div>
+                <!-- /.tab-pane -->
+                <!-- /.tab-pane -->
+            </div>
+        </aside>
+        <!-- /.control-sidebar -->
+        <!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+
+    </div>
+    <!-- ./wrapper -->
+
+</body>
+</html>
+    <!-- jQuery 3 -->
+    <script src="~/VoiceX/jquery-3.3.1/jquery-3.3.1.js"></script>
+
+    <!-- fullscreen -->
+    <script src="~/VoiceX/screenfull/screenfull.js"></script>
+
+    <!-- popper -->
+    <script src="~/VoiceX/popper/dist/popper.js"></script>
+
+    <!-- Bootstrap 4.0-->
+    <script src="~/VoiceX/bootstrap/dist/js/bootstrap.js"></script>
+
+    <!-- date-range-picker -->
+    <script src="~/VoiceX/moment/min/moment.min.js"></script>
+    <!-- Slimscroll -->
+    <script src="~/VoiceX/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+    <!-- FastClick -->
+    <script src="~/VoiceX/fastclick/lib/fastclick.js"></script>
+
+    <!-- Sparkline -->
+    <script src="~/VoiceX/jquery-sparkline/dist/jquery.sparkline.js"></script>
+
+    <!-- apexcharts -->
+    <!-- toast -->
+    <script src="~/VoiceX/jquery-toast-plugin-master/src/jquery.toast.js"></script>
+
+    <!-- VoiceX Admin App -->
+    <script src="~/VoiceX/js/template.js"></script>
+
+
+    <!-- VoiceX Admin dashboard demo (This is only for demo purposes) -->
+    <script src="~/VoiceX/js/pages/dashboard6.js"></script>
+
+    <!-- VoiceX Admin for demo purposes -->
+    <script src="~/VoiceX/js/demo.js"></script>
+
+@*@Scripts.Render("~/Js")*@
+<script src="~/Scripts/myScript.js"></script>
+@RenderSection("scripts", required: false)
+@if (User.IsInRole("Teacher"))
+{
+<script src="~/Scripts/access.js"></script>
+}
+<script>
+
+     //$(window).load(function () {
+     //    $('.loadin').fadeOut(2000);
+    //})
+    $('html').click(function () {
+        $('.control-sidebar').removeClass('control-sidebar-open');
+    })
+     $("a").click(function (event) {
+         event.preventDefault();
+         if ($(this).attr('href').length > 1) {
+             $('.loadin').show();
+             $('html, body').css({
+                 'overflow': 'hidden',
+                 'height': '100%'
+             })
+             window.location.href = this.href;
+         }
+     });
+</script>

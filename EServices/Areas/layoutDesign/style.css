@@ -1,0 +1,176 @@
+﻿html body {
+    background: #0e4a5c;
+    color: white;
+    margin:0px;
+    padding:0px;
+
+}
+
+.container {
+    margin-top: 50px;
+}
+
+    .container h3 {
+        text-align: center;
+    }
+
+p {
+    text-align: justify;
+}
+
+.Abtn-menu {
+    position: fixed;
+    top: 15px;
+    left: 45%;
+    transform: translateX(-50%);
+    z-index: 100;
+    cursor: pointer;
+    transition: .4s;
+    opacity: 0.5;
+    /*border-radius: 50%;*/
+    padding: 20px;
+    /*border: 1px solid white;*/
+    /*background: #0e4a5c;*/
+}
+
+    .Abtn-menu:hover {
+        box-shadow: 0 0px 100px 0 black;
+    }
+
+    .Abtn-menu span {
+        background: white;
+        width: 15px;
+        height: 1px;
+        display: block;
+        position: absolute;
+        position: absolute;
+        left: 13px;
+        display: block;
+        transition: .3s;
+        background: transparent;
+    }
+
+        .Abtn-menu span::before {
+            content: '';
+            background: white;
+            width: 15px;
+            height: 1px;
+            display: block;
+            position: absolute;
+            display: block;
+            top: 0px;
+            transform: rotate(45deg);
+        }
+
+        .Abtn-menu span::after {
+            content: '';
+            background: white;
+            width: 15px;
+            height: 1px;
+            display: block;
+            position: absolute;
+            transform: rotate(-45deg);
+            display: block;
+            top: 0px;
+        }
+
+    .Abtn-menu.toggleCancel span {
+        background: white;
+    }
+
+        .Abtn-menu.toggleCancel span::after {
+            top: -3px;
+            transform: rotate(0deg);
+        }
+
+        .Abtn-menu.toggleCancel span::before {
+            top: 3px;
+            transform: rotate(0deg);
+        }
+.moveToSide{
+               left:280px;
+                transform:translateX(50%);
+                top: -5px;
+                border-color: #0e4a5c;
+                border-radius: 0px;
+            }
+.Amenu {
+    width: 100%;
+    height: 80px;
+    top: 0px;
+    position: fixed;
+    border-bottom: 1px solid rgba(0,50,50,0.6);
+    transition: .6s all;
+    background: #0e4a5c;
+    box-shadow: 0 0px 5px 0 #342b2b;
+    transition: .5s;
+}
+
+.btnn {
+    opacity: 1;
+}
+
+.menu-open {
+    top: -76px;
+    z-index: -1;
+}
+
+.Amenu a {
+    margin: 10px 10px;
+}
+
+
+.glyphicon {
+    color: white;
+    border: 1px solid;
+    padding: 10px;
+    border-radius: 50%;
+    font-size:16px;
+}
+
+
+
+    .glyphicon:hover {
+        text-decoration: none;
+        color: #aed0ef;
+        cursor: pointer;
+    }
+
+    .glyphicon:focus {
+        text-decoration: none;
+    }
+
+.bg {
+    background: #4de56a;
+    padding: 3px;
+    position: absolute;
+    top: 10px;
+    border-radius: 50%;
+    left: 108px;
+}
+.option{
+    margin-top:50px;
+
+}
+.kid {
+    color: #f19191;
+}
+.log {
+    position:relative;
+    margin-top: 120px;
+    margin-left: 30px;
+    bottom:50px;
+}
+.log a{
+    padding:10px;
+    border: 1px solid;
+    color:white;
+   transition:.5s all;
+   border-radius:10%;
+}
+    .log a:hover {
+        text-decoration: none;
+        color: #0e4a5c;
+        background: white;
+        transition: .4s all;
+    }

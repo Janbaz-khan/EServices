@@ -1,0 +1,128 @@
+﻿@model IEnumerable<EServices.Models.Staff.Staff>
+
+@{
+    ViewBag.Title = "Teachers";
+}
+@Styles.Render("~/DataTableCss")
+<style>
+   
+</style>
+<h4>Leave School</h4>
+<hr />
+<table class="table" id="tbl">
+    <thead>
+
+
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FatherName)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.HiringDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Education)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNo)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.Designation)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@Url.Content(item.Image)" width="40" height="40" />   @Html.DisplayFor(modelItem => item.EmpName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FatherName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.HiringDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Education)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNo)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Designation)
+                </td>
+                @if (item.Status)
+       {
+        <td class="text-primary">Active</td>
+        <td><a href="#" onclick="confirm(@item.EmpId)" class="btn btn-danger btn-xs">Leave</a></td>
+       }
+       else
+       {
+        <td class="text-danger">Left</td>
+        <td><a href="@Url.Action("LeaveTeacher","LeaveSchool",new { id=item.EmpId})" class="btn btn-success btn-xs">Come back</a></td>
+       }
+            </tr>
+        }
+    </tbody>
+</table>
+<input type="hidden" id="temp" />
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<div class="modal modal-danger fade" id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="close" >&times;</a>
+                <div class="modal-title"><h3 class="">Warning</h3></div>
+            </div>
+            <div class="modal-body text-danger">
+                <h4>after leaving, his/her all  mapping with classes and subjects  will be deleted permanently</h4>
+                <h5>Are you sure you want to this remove this teacher?</h5>
+            </div>
+            <div class="modal-footer">
+                <button  class=" btn btn-primary" onclick="leave()">Yes</button>
+                <button class="btn btn-default" data-dismiss="modal">No</button>
+            </div>
+            <div class="modal"></div>
+        </div>
+        
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+@Scripts.Render("~/DataTableJs")
+<script>
+    $('#tbl').DataTable();
+    function confirm(EmpId) {
+        $("#temp").val(EmpId);
+       
+        $("#modal").modal("show");
+    }
+    function leave() {
+        var id = $("#temp").val();
+        $.ajax({
+            type: 'POST',
+            url: '/LeaveSchool/LeaveTeacher/' + id,
+            success: function (response) {
+                window.location.reload();
+            }
+        })
+    }
+</script>

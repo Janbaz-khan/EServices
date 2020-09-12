@@ -1,0 +1,291 @@
+﻿@model List<EServices.Models.Results.ExamResult>
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/Content/checkbox.css" rel="stylesheet" />
+
+<style>
+    input[type=text]:not(#txtTotal) {
+        max-width: 100px;
+    }
+</style>
+@Html.Action("resultmenu")
+
+
+<h4>Exam Results</h4>
+<img src="~/AppFolder/GIF/giphy.gif"  width="200" height="200" style="display:none" id="loader"/>
+@if (User.IsInRole("Teacher"))
+{
+    <div class="form-type-roundinput">
+        @using (Html.BeginForm("Index", "Result"))
+        {
+            <div class="form-group col-sm-4">
+                @Html.DropDownList("Type", ViewBag.type as SelectList, "Select Exam Type", new { @class = "form-control", @required = true })
+            </div>
+            <div class="form-group col-sm-4">
+                @Html.DropDownList("Class", ViewBag.classes as SelectList, "Select Class", new { @class = "form-control", @id = "classId", @required = true })
+            </div>
+            <div class="form-group col-sm-4">
+                <select class="form-control" id="Section" name="Section" required>
+                    <option selected style="display:none;" disabled value="">Select Section</option>
+                </select>
+            </div>
+            <div class="form-group col-sm-4">
+                <select class="form-control" id="Subject" name="Subject" required>
+                    <option selected style="display:none;" disabled value="">Select Subject</option>
+                </select>
+            </div>
+            <div class="form-group col-sm-4">
+                <input type="submit" value="load" class="btn btn-info" />
+            </div>
+        }
+    </div>
+
+}
+else
+{
+<div class="form-type-roundinput">
+    @using (Html.BeginForm("Index", "Result"))
+    {
+        <div class="form-group col-sm-4">
+            @Html.DropDownList("Type", ViewBag.type as SelectList, "Select Exam Type", new { @class = "form-control", @required = true })
+        </div>
+        <div class="form-group col-sm-4">
+            @Html.DropDownList("Class", ViewBag.classes as SelectList, "Select Class", new { @class = "form-control", @required = true })
+        </div>
+        <div class="form-group col-sm-4">
+            @Html.DropDownList("Section", ViewBag.sections as SelectList, "Select Section", new { @class = "form-control", @required = true })
+        </div>
+        <div class="form-group col-sm-4">
+            @Html.DropDownList("Subject", ViewBag.subjects as SelectList, "Select Subject", new { @class = "form-control", @required = true })
+        </div>
+        <div class="form-group col-sm-4">
+            <input type="submit" value="load" class="btn btn-info" />
+        </div>
+    }
+</div>
+}
+@if (ViewBag.warning!=null)
+{
+    <div class="alert alert-danger">@ViewBag.warning</div>
+}
+@if (TempData["info-msg"] != null)
+{
+    <hr />
+    <div class="alert alert-success">@TempData["info-msg"]</div>
+}
+
+@using (Html.BeginForm("SubmitResult", "Result"))
+{
+    if (ViewBag.list != null)
+    {
+
+
+        var i = 0;
+        var list = ViewBag.list as IEnumerable<EServices.Models.StudentRegistrationModel>;
+        if (list.Count() > 0)
+        {
+
+            <div class="col-md-2 pull-right">
+                <input type="text" class="form-control col-md-12" placeholder="Enter total marks here" id="txtTotal" />
+            </div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Total Marks</th>
+                        <th>Written Marks(70-85)</th>
+                        <th>Conceptual Marks(10-15)</th>
+                        <th>Oral Marks(10-15)</th>
+                        <th>Obtained Total</th>
+                        <th>Percentage</th>
+                        <th>Status</th>
+                        <th>@Html.CheckBox("checkBox", new { @id = "checkAll" }) SMS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.list as IEnumerable<EServices.Models.StudentRegistrationModel>)
+                    {
+                        <tr>
+                            <td> @item.StudentName</td>
+
+                            @Html.HiddenFor(a => a[i].StudentId, new { @Value = item.AddmissionNo })
+                            @Html.HiddenFor(a => a[i].ClassId, new { @Value = item.ClassId })
+                            @Html.HiddenFor(a => a[i].SessionId, new { @Value = item.SessionId })
+                            @Html.HiddenFor(a => a[i].SectionId, new { @Value = item.SectionId })
+                            @Html.HiddenFor(a => a[i].MonthId, new { @Value = DateTime.Now.Month })
+                            @Html.HiddenFor(a => a[i].SubjectId, new { @Value = ViewBag.SubjectId })
+                            @Html.HiddenFor(a => a[i].ExamTypeId, new { @Value = ViewBag.ExamTypeId })
+                            @Html.HiddenFor(a => a[i].TeacherId, new { @Value = ViewBag.teacherid })
+
+                            <td>
+                                @Html.TextBoxFor(a => a[i].TotalMarks, new { @readonly = true, @class = "form-control Total", @id = "total" + i, @Value = "100" })
+                                @Html.ValidationMessageFor(model => model[i].TotalMarks, "", new { @class = "text-danger " })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(a => a[i].WrittenMarks, new { @class = "form-control wr", @id = i })
+                                @Html.ValidationMessageFor(model => model[i].WrittenMarks, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(a => a[i].ConceptualMarks, new { @class = "form-control cm", @Value = "0", @readonly = true, @id = "cm" + i })
+                                @Html.ValidationMessageFor(model => model[i].ConceptualMarks, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(a => a[i].OralMarks, new { @class = "form-control orl", @Value = "0", @readonly = true, @id = "orl" + i })
+                                @Html.ValidationMessageFor(model => model[i].OralMarks, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(a => a[i].ObtainedTotal, new { @class = "form-control Obtained", @readonly = true, @id = "ob" + i })
+                                @Html.ValidationMessageFor(model => model[i].ObtainedTotal, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(a => a[i].Percentage, new { @readonly = true, @class = "form-control ", @id = "perc" + i })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(a => a[i].Status, new { @readonly = true, @class = "form-control ", @id = "stat" + i })
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(a => a[i].SMS_Status, new { @class = "checkBox1", @name = "sms" })
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                </tbody>
+            </table>
+            <input type="submit" class="btn btn-primary pull-right" value="Submit" id="btnSubmit" />
+            <hr />
+        }
+        else
+        {
+
+            <h4 class="text-center">there is no student in this class</h4>
+        }
+    }
+    else
+    {
+        <h4 class="text-center">Data will be shown here</h4>
+    }
+}
+<div class="modal fade" id="Modal" tabindex="-1">
+    <div class="modal-dialog dModal">
+        <div class="modal-content ">
+            <div class="modal-body text-danger" id="confirmClass">
+                <h4><i class="fa fa-info-circle"></i> obtained marks must not be greater than total marks,please compare total marks and obtained marks</h4>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-info" data-dismiss="modal">Close</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    var ob, wr, orl, status, perc, TotalObtained=0, cm, cmMarks = 0, orlMarks = 0, wrMarks = 0,passingMarks=0,fair=0,good=0,excellent=0,outstanding=0;
+    function GetGrade() {
+        $('#loader').show();
+        $.ajax({
+            type: 'GET',
+            url: '/Result/GetGrade/',
+            success: function (data) {
+                passingMarks = data.PassingMarks;
+                fair = data.Fair_Grade;
+                good = data.good_Grade;
+                excellent = data.Excellent_Grade;
+                outstanding = data.OutStanding_Grade;
+                $('#loader').hide();
+
+            }
+        })
+    }
+    GetGrade();
+    $('#checkAll').click(function () {
+        $('input:checkbox').prop('checked', this.checked);
+    });
+    $('#txtTotal').keyup(function () {
+        var value = $(this).val();
+        $('.Total').val(value);
+    });
+    $('.wr').keyup(function () {
+        
+        var id = $(this).attr('id');
+        ob = $.trim("#ob" + id);
+        wr = $.trim("#wr" + id);
+        cm = $.trim("#cm" + id)
+        orl = $.trim("#orl" + id);
+        perc = $.trim("#perc" + id);
+        status = $.trim("#stat" + id);
+        wrMarks = $(this).val();
+        cmMarks = $(cm).val();
+        orlMarks = $(orl).val();
+        $(cm).prop('readonly', false);
+        TotalObtained = parseInt(wrMarks) + parseInt(cmMarks) + parseInt(orlMarks);
+        $(ob).val(TotalObtained);
+        $(perc).val(Percentage(TotalObtained));
+        Checkstatus($(perc).val());
+        if (checkOb(TotalObtained) == false) {
+            $(cm).prop('readonly', true);
+
+        }
+
+    });
+    $('.cm').keyup(function () {
+        $(orl).prop('readonly', false);
+        cmMarks = $(cm).val();
+         TotalObtained = parseInt(cmMarks) + parseInt(orlMarks) + parseInt(wrMarks);
+        $(ob).val(TotalObtained);
+        $(perc).val(Percentage(TotalObtained));
+        Checkstatus($(perc).val());
+        if (checkOb(TotalObtained) == false) {
+            $(orl).prop('readonly', true);
+        }
+
+
+    });
+    $('.orl').keyup(function () {
+        orlMarks = $(orl).val();
+         TotalObtained = parseInt(orlMarks) + parseInt(cmMarks) + parseInt(wrMarks);
+        $(ob).val(TotalObtained);
+        $(perc).val(Percentage(TotalObtained));
+        Checkstatus($(perc).val());
+        checkOb(TotalObtained);
+    });
+
+    function Percentage(mrks) {
+        var total = $('.Total').val();
+        parseInt(total);
+        var prnctg = (mrks / total) * 100;
+        return parseInt(prnctg);
+    }
+    function Checkstatus(p) {
+        if (p < passingMarks) {
+            $(status).val("Fail");
+            $(status).css("color", "red");
+        }
+        else if (p >= passingMarks && p <= fair) {
+            $(status).val("Fair");
+            $(status).css("color", "gray");
+        } else if (p > fair && p <= good) {
+            $(status).val("Good");
+            $(status).css("color", "gray");
+        } else if (p > good && p <= excellent) {
+            $(status).val("Excellent");
+            $(status).css("color", "gray");
+        }
+        else if (p > excellent) {
+            $(status).val("Extra Ordinary");
+            $(status).css("color", "gray");
+        }
+    }
+    function checkOb(o) {
+        var total = $('.Total').val();
+        if (o > total) {
+            $('#Modal').modal('show');
+            return false;
+        }
+    }
+
+</script>

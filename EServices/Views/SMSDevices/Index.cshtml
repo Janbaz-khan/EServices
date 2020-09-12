@@ -1,0 +1,73 @@
+﻿@model IEnumerable<EServices.Models.API.SMSDevice>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h3>Devices list for Sending SMS</h3><h4>you can activate only one device at a time </h4>
+@if (ViewBag.ActiveDevicesCount>0)
+{
+     <div class="alert alert-warning">you can not add another device  if there is an active device in the below list.</div>
+}
+else
+{
+<p>
+    @Html.ActionLink("Add new device", "Create")
+</p>
+
+}
+@if (TempData["alert-message"]!=null)
+{
+    <div class="alert alert-danger">@TempData["alert-message"]</div>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Device_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Device_Code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.status)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Device_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Device_Code)
+        </td>
+        <td>
+           @if (!item.status)
+           {
+               <span>InActive</span>
+           }
+           else
+           {
+                <span style="color:red;" >Active</span>
+           }
+        </td>
+        <td>
+            @if (!item.status)
+            {
+                <a class="btn btn-default" href="@Url.Action("Activate","SMSDevices",new { id = item.id })">Activate</a>
+            }
+            else
+            {
+                <a class="btn btn-dark" href="@Url.Action("Activate","SMSDevices",new { id = item.id })">DeActivate</a>
+
+            }
+
+            | <a class="btn btn-primary" href="@Url.Action("Edit","SMSDevices",new { id = item.id })"><i class="fa fa-pencil-alt"></i></a> |
+            <a class="btn btn-danger" href="@Url.Action("Delete","SMSDevices",new { id = item.id })"><i class="fa fa-trash-alt"></i></a>
+
+        </td>
+    </tr>
+}
+
+</table>

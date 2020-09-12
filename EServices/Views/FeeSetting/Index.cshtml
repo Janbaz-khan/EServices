@@ -1,0 +1,137 @@
+﻿@model IEnumerable<EServices.Models.Fee.NormalFee>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h3>Set  different type of fee Classwise</h3><hr />
+<img src="~/AppFolder/GIF/giphy.gif" width="90" height="90" id="loader" style="display:none;" />
+
+
+<p>
+    <a href="#" class="btn btn-info" onclick="addBtn()"><i class="fa fa-plus"></i> Add new</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ClassId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AdmissionFee)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MonthlyFee)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PromotionFee)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExamFee)
+        </th>
+
+        <th>Status</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Class.ClassName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdmissionFee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MonthlyFee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PromotionFee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExamFee)
+            </td>
+            <td>
+                @if (item.Status)
+                {
+                    <span>Active</span>
+                }
+               <td>
+                <a href="#" onclick="confirm(@item.NormalFeeID)" class="btn btn-danger btn-xs">Disable</a>
+                <a href="#" onclick="edit(@item.NormalFeeID)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-pencil"></i></a>
+            </td>
+        </tr>
+    }
+
+</table>
+<input type="hidden" id="Hv" />
+<div class="modal modal-right fade" id="addEditModal" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content info">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="close">&times;</a>
+                <div class="modal-title" id="title">
+                    <h4>Add/Edit Record</h4>
+                </div>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal modal-danger fade" id="ConfimModal" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content info">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" class="close">&times;</a>
+                <div class="modal-title" id="title">
+                  
+                </div>
+            </div>
+            <div class="modal-body" id="ConfimBody">
+                <h4>Are you sure, you want to disable this field? this will be removed permanently!</h4>
+            </div>
+            <div  class="modal-footer">
+                <input type="button" class="btn btn-danger" onclick="remove()" value="OK" />
+                <input type="button" data-dismiss="modal" class="btn btn-default" value="Cancel"/>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    function addBtn() {
+        $('#loader').show();
+        var url = "/FeeSetting/SetNormalFee/";
+        $('#modalBody').load(url, function () {
+            $('#addEditModal').modal('show');
+            $('#loader').hide();
+
+        })
+    }
+    function edit(NormalFeeID) {
+        $('#loader').show();
+        var url = "/FeeSetting/EditNormalFee/" + NormalFeeID;
+        $('#modalBody').load(url, function () {
+            $('#addEditModal').modal('show');
+            $('#loader').hide();
+        })
+    }
+    function confirm(NormalFeeID) {
+        $('#loader').show();
+        $('#Hv').val(NormalFeeID);
+        $('#ConfimModal').modal('show');
+        $('#loader').hide();
+    }
+    function remove() {
+        var id = $("#Hv").val();
+        var url = "/FeeSetting/DisableReocrd/" + id;
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function (response) {
+                window.location.reload();
+            }
+        })
+    }
+</script>

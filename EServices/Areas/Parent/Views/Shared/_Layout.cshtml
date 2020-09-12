@@ -1,0 +1,48 @@
+﻿@*<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Areas/layoutDesign/bootstrap/css/bootstrap.css" rel="stylesheet" />
+        <link href="~/Areas/layoutDesign/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application </p>
+        </footer>
+    </div>
+    <a class="Abtn-menu">
+        <span></span>
+
+    </a>
+    <div class="Amenu">
+        <a class="glyphicon glyphicon-home" href="@Url.Action("Index","Home",new { area="Parent"})"></a>
+        <a class="glyphicon glyphicon-bell" id="bell" href="@Url.Action("Notification","Home",new { area="Parent"})"></a><i id="bgMain" style="display:none" class="bg"></i>
+        <a class="glyphicon glyphicon-option-horizontal pull-right"></a>
+        <a class="glyphicon glyphicon-envelope pull-right"></a>
+
+    </div>
+    
+
+
+</body>
+</html>
+<script src="~/Areas/JavaScriptFiles/jquery-3.1.1.min.js"></script>
+<script src="~/Areas/JavaScriptFiles/jquery.signalR-2.4.1.min.js"></script>
+<script src="~/signalr/hubs"></script>
+<script src="~/Areas/JavaScriptFiles/MyJs.js"></script>
+<script>
+
+        $(".Abtn-menu").click(function(){
+            $(this).toggleClass('btnn');
+            $(".Amenu").toggleClass('menu-open');
+         $("#menu").toggleClass('back');
+        $(this).toggleClass('toggleCancel');
+        // $(this).toggleClass('moveToSide');
+            });
+
+</script>*@

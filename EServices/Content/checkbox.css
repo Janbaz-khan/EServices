@@ -1,0 +1,33 @@
+﻿.checkBox1 {
+    position: relative;
+    width: 30px;
+    height: 20px;
+    -webkit-appearance: none;
+    background: #c6c6c6;
+    border-radius: 20px;
+    border: none;
+    outline: none !important;
+}
+
+    .checkBox1:checked {
+        background: #5a9ae3;
+    }
+
+    .checkBox1::before {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        top: 0px;
+        left: 0px;
+        border-radius: 50%;
+        transform: scale(1.1);
+        transition: .2s;
+        box-shadow: 0 1px 10px 0 #838181;
+        outline: none;
+    }
+
+    .checkBox1:checked::before {
+        left: 13px;
+    }
