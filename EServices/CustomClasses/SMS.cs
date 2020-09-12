@@ -1,4 +1,5 @@
 ﻿using EServices.Models.API;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +47,8 @@ namespace EServices.CustomClasses
                 WebResponse resp = req.GetResponse();
                 var sr = new System.IO.StreamReader(resp.GetResponseStream());
                 string msg = sr.ReadToEnd().Trim();
-                if (msg.Contains("OK"))
+                var convetJsonMessage = JsonConvert.DeserializeObject<message>(msg);
+                if (convetJsonMessage.success)
                 {
                     return "Message Sent Successfully";
                 }
@@ -62,5 +64,9 @@ namespace EServices.CustomClasses
             }
         }
     }
-
+    class message
+    {
+        public bool success { get; set; }
+        public string Error { get; set; }
+    }
 }

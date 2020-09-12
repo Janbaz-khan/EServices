@@ -24,6 +24,7 @@ namespace EServices.Models
         [ForeignKey("ParentId")]
         public Parent Parent { get; set; }
         [Required(ErrorMessage = "DOB field required...")]
+      
         public string DOB { get; set; }
         [Required(ErrorMessage = " Address field required...")]
         public string Address { get; set; }

@@ -19,9 +19,41 @@ namespace EServices.Controllers
         {
             using (DB db = new DB())
             {
-                var list = db.Registration.Include("Class").Include("Sections").Include("Parent").Include("Gender").Include("Religion").Where(a => a.Status).ToList();
+                var Classes = db.Classes.ToList();
+                var Sections = db.Sections.ToList();
+                var Sessions = db.Sessions.ToList();
+                ViewBag.Sessions = new SelectList(Sessions, "SessionId", "SessionName");
+                ViewBag.Sections = new SelectList(Sections, "SectionId", "SectionName");
+                ViewBag.Classes = new SelectList(Classes, "ClassId", "ClassName");
+                // var list = db.Registration.Include("Class").Include("Sections").Include("Parent").Include("Gender").Include("Religion").Where(a => a.Status).ToList();
+                var list = new List<StudentRegistrationModel>();
+                if (list != null)
+                {
+                ViewBag.list = list;
+                }
 
-                return View(list);
+                return View();
+            }
+        }
+        [HttpPost]
+        public ActionResult Index(int Class,int Section,int Session)
+        {
+            using (DB db = new DB())
+            {
+                var Classes = db.Classes.ToList();
+                var Sections = db.Sections.ToList();
+                var Sessions = db.Sessions.ToList();
+                ViewBag.Sessions = new SelectList(Sessions, "SessionId", "SessionName");
+                ViewBag.Sections = new SelectList(Sections, "SectionId", "SectionName");
+                ViewBag.Classes = new SelectList(Classes, "ClassId", "ClassName");
+                var list = db.Registration.Include("Class").Include("Sections").Include("Parent").Include("Gender").Include("Religion").Where(a => a.Status&&a.ClassId==Class&&a.SectionId==Section&&a.SessionId==Session).ToList();
+         
+                if (list != null)
+                {
+                    ViewBag.list = list;
+                }
+
+                return View();
             }
         }
 

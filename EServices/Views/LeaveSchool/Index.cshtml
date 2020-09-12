@@ -6,7 +6,7 @@
 @Styles.Render("~/DataTableCss")
 <h4>Leave School</h4>
 
-<table class="table" id="tbl">
+<table class="table table-responsive" id="tbl">
     <thead>
 
     <tr>
@@ -17,9 +17,7 @@
         <th>
             @Html.DisplayNameFor(model => model.ParentId)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DOB)
-        </th>
+       
         <th>
             @Html.DisplayNameFor(model => model.Address)
         </th>
@@ -36,7 +34,7 @@
            Status
        </th>
         
-        <th></th>
+        <th>Action</th>
       
     </tr>
     </thead>
@@ -52,9 +50,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Parent.FatherName)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DOB)
-                </td>
+               
                 <td>
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>

@@ -40,31 +40,31 @@
 }
 else
 {
-<div class="form-type-roundinput">
-    @using (Html.BeginForm())
-    {
+    <div class="form-type-roundinput">
+        @using (Html.BeginForm())
+        {
       
-        <div class="form-group col-sm-4">
+            <div class="form-group col-sm-4">
 
-            @Html.DropDownList("Class", ViewBag.Classes as SelectList, "Select Class", new { @class = "form-control", @required = "true" })
+                @Html.DropDownList("Class", ViewBag.Classes as SelectList, "Select Class", new { @class = "form-control", @required = "true" })
 
-        </div>
-        <div class="form-group col-sm-4">
-            @Html.DropDownList("Section", ViewBag.sections as SelectList, "Select Section", new { @class = "form-control", @required = true })
-        </div>
-        <div class="form-group col-sm-4">
+            </div>
+            <div class="form-group col-sm-4">
+                @Html.DropDownList("Section", ViewBag.sections as SelectList, "Select Section", new { @class = "form-control", @required = true })
+            </div>
+            <div class="form-group col-sm-4">
 
-           <input type="text" name="Date" id="Date" class="form-control" value="@ViewBag.LocalTime" required  placeholder="mm/dd/yy"/>
+               <input type="text" name="Date" id="Date" class="form-control" value="@ViewBag.LocalTime" required  placeholder="mm/dd/yy"/>
 
-        </div>
-        <div class="form-group col-sm-4">
-            <input type="submit" value="Load" name="" class="btn btn-info" />
-        </div>
+            </div>
+            <div class="form-group col-sm-4">
+                <input type="submit" value="Load" name="" class="btn btn-info" />
+            </div>
 
-    }
+        }
 
 
-</div>
+    </div>
 }
     <h4>Details</h4>
 <h5>Date: @ViewBag.LocalTime</h5>

@@ -1,63 +1,84 @@
-﻿@model IEnumerable<EServices.Models.StudentRegistrationModel>
-
+﻿
 @{
     ViewBag.Title = "Index";
-    
+
 }
 @Styles.Render("~/DataTableCss")
 
 
 @Html.Action("Menu", "Admission")
+<p>
+    <a href="@Url.Action("AddStudent","Admission")" class="btn btn-primary" id="addBtn"><i class="fa fa-plus"></i> Add new</a>
+    <img src="~/AppFolder/GIF/giphy.gif" id="loader" style="display:none;width:100px;height:100px;" />
+    <hr />
+</p>
+<p>search by </p>
+<div class="form-type-roundinput">
+    @using (Html.BeginForm())
+    {
 
+        <div class="form-group col-sm-4">
 
+            @Html.DropDownList("Class", ViewBag.Classes as SelectList, "Select Class", new { @class = "form-control", @required = true })
+
+        </div>
+        <div class="form-group col-sm-4">
+            @Html.DropDownList("Section", ViewBag.sections as SelectList, "Select Section", new { @class = "form-control", @required = true })
+        </div>
+        <div class="form-group col-sm-4">
+            @Html.DropDownList("Session", ViewBag.sessions as SelectList, "Select Session", new { @class = "form-control", @required = true })
+
+        </div>
+        <div class="form-group col-sm-4">
+            <input type="submit" value="Load" name="" class="btn btn-info btn-sm" />
+        </div>
+
+    }
+</div>
 <div id="tbl" style="margin-top:40px;">
-    <p>
-        <a href="@Url.Action("AddStudent","Admission")" class="btn btn-primary" id="addBtn" ><i class="fa fa-plus"></i> Add new</a>
-      <img src="~/AppFolder/GIF/giphy.gif"  id="loader" style="display:none;width:100px;height:100px;"/>
-      <hr />
-    </p>
-    @if (Model.Any())
+
+    @if (ViewBag.list != null)
     {
 
         <table class="table table-responsive" id="StudentTable">
             <thead>
                 <tr>
-                 <th>Admission No.</th>
+                    <th>Admission No.</th>
                     <th>
-                        @Html.DisplayNameFor(model => model.StudentName)
+                        Name
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Parent.FatherName)
+                        Father Name
                     </th>
 
                     <th>
-                        @Html.DisplayNameFor(model => model.Address)
+                        Address
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Class.ClassName)
+                        Class
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Sections.SectionName)
+                        Section
                     </th>
 
                     <th></th>
-                 
+
                 </tr>
             </thead>
             <tbody id="data">
 
 
-                @foreach (var item in Model)
+                @foreach (var item in ViewBag.list as IEnumerable<EServices.Models.StudentRegistrationModel>)
                 {
                     <tr class="searchTr">
 
-                      <td>@item.AddmissionNo</td>
+                        <td>@item.AddmissionNo</td>
                         <td>
-                            <img src="@Url.Content(item.Image)" style="border-radius:50%;" width="40" height="40" /> <a href="#"  onclick="Details(@item.AddmissionNo)">@item.StudentName</a>
+                            <img src="@Url.Content(item.Image)" style="border-radius:50%;" width="40" height="40" /> <a href="#" onclick="Details(@item.AddmissionNo)">@item.StudentName</a>
                         </td>
                         <td>
-                           <a href="#"  onclick="ParentDetails(@item.AddmissionNo)"><i class="fa fa-user"></i>  @item.Parent.FatherName</a>
-                            <a href="#" class="btn btn-default btn-xs "  onclick="editParent(@item.ParentId)"> <i class="fa fa-pencil-alt"></i></a>
+                            <a href="#" onclick="ParentDetails(@item.AddmissionNo)"><i class="fa fa-user"></i>  @item.Parent.FatherName</a>
+                            <a href="#" class="btn btn-default btn-xs " onclick="editParent(@item.ParentId)"> <i class="fa fa-pencil-alt"></i></a>
                         </td>
 
                         <td>
@@ -78,7 +99,7 @@
                     </tr>
                 }
             </tbody>
-          
+
 
         </table>
         <input type="hidden" id="hId" />
@@ -88,8 +109,8 @@
         <h3>No data found</h3>
     }
 </div>
-<div class="modal modal-right fade" id="addEditModal" >
-    <div class="modal-dialog" style="height:130%;" >
+<div class="modal modal-right fade" id="addEditModal">
+    <div class="modal-dialog" style="height:130%;">
         <div class="modal-content info">
             <div class="modal-header">
                 <a href="#" data-dismiss="modal" class="close">&times;</a>
@@ -121,17 +142,17 @@
 @Scripts.Render("~/DataTableJs")
 
 <script>
-        
+
     $('#search').keyup(function () {
 
         searchTable($(this).val());
     });
     $('#StudentTable').DataTable();
-   
+
     $('#frst').addClass("activee");
     //function add() {
     //    $('#loader').show();
-       
+
     //    var url = "/Admission/AddStudent/";
     //    $('#addModalBody').load(url, function () {
     //        $('#title').empty();
@@ -142,8 +163,8 @@
     //}
     function edit(AddmissionNo) {
         $('.modal-dialog').css("width", "90%");
-        $('#loader').show();    
-        var url = "/Admission/EditStudent/"+AddmissionNo;
+        $('#loader').show();
+        var url = "/Admission/EditStudent/" + AddmissionNo;
         $('#addModalBody').load(url, function () {
             $('#title').empty();
             $('#title').append("<h4>Edit Student</h4>")

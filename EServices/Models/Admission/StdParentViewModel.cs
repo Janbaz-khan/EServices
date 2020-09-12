@@ -17,7 +17,7 @@ namespace EServices.Models
         public String StudentName { get; set; }
 
         [Required(ErrorMessage = "DOB field required...")]
-
+        [DataType(DataType.Date)]
         public string DOB { get; set; }
         [Required(ErrorMessage = " Address field required...")]
         public string Address { get; set; }
@@ -42,6 +42,7 @@ namespace EServices.Models
         [ForeignKey("SessionId")]
         public Session Sessions { get; set; }
         [Required(ErrorMessage = "Date field required...")]
+        [DataType(DataType.Date)]
         public string AddmissionDate { get; set; }
 
 
